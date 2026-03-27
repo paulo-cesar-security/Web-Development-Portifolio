@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <title>Curso de Violão Completo do Zero ao Avançado | Aprenda Rápido</title>
+  <title>Curso de Violão do Zero ao Avançado | Aprenda Rápido</title>
   <meta charset="utf-8">
-  <meta name="description" content="Aprenda violão do zero ao avançado com aulas práticas, passo a passo.">
+  <meta name="description" content="Aprenda violão do zero ao avançado com aulas práticas e simples.">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
@@ -11,60 +11,101 @@
       max-width: 500px;
       margin: 0 auto;
       text-align: center;
-      font-family: lora;
-      color: #444;
+      font-family: Arial, sans-serif;
+      background-color: #f7f7f7;
+      color: #333;
     }
 
-    .textAzul { color: #3d85c6; }
-    .textVermelho { color: red; }
+    h1 { font-size: 26px; }
+    h2 { font-size: 20px; }
 
-    h1, h2, h3 {
-      font-weight: normal;
-    }
+    .textAzul { color: #3d85c6; font-weight: bold; }
+    .textVermelho { color: #e53935; font-weight: bold; }
 
     img {
       display: block;
       margin: 20px auto;
       max-width: 100%;
+      border-radius: 10px;
+    }
+
+    iframe {
+      width: 100%;
+      border-radius: 10px;
+      margin: 20px 0;
+    }
+
+    .botao {
+      display: block;
+      background: linear-gradient(45deg, #00c853, #64dd17);
+      color: white;
+      font-size: 20px;
+      padding: 15px;
+      margin: 20px auto;
+      width: 90%;
+      max-width: 300px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: bold;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+
+    .card {
+      background: white;
+      padding: 20px;
+      margin: 20px 10px;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
     }
 
     .lista {
-      width: fit-content;
-      margin: 20px auto;
+      list-style: none;
+      padding: 0;
       text-align: left;
-      font-size: 18px;
     }
 
-    /* Contagem */
+    .lista li {
+      margin: 10px 0;
+      padding-left: 25px;
+      position: relative;
+    }
+
+    .lista li::before {
+      content: "✔";
+      color: #00c853;
+      position: absolute;
+      left: 0;
+    }
+
+    .preco {
+      font-size: 30px;
+      color: #00c853;
+      font-weight: bold;
+    }
+
     .contagem {
-      width: fit-content;
-      margin: 20px auto;
-      text-align: center;
+      margin: 20px 0;
     }
 
     .numero {
-      min-width: 40px;
-      background-color: #f73839;
-      color: #fff;
-      font-size: 24px;
+      display: inline-block;
+      background: #e53935;
+      color: white;
+      padding: 10px;
       margin: 5px;
       border-radius: 10px;
-      padding: 5px;
-      display: inline-block;
+      min-width: 40px;
     }
 
     .legenda {
       font-size: 12px;
     }
 
-    /* FAQ */
     summary {
-      font-size: 16px;
-      font-weight: 600;
-      background-color: #E6E6FA;
+      background: #eee;
       padding: 10px;
+      border-radius: 8px;
       margin: 10px 0;
-      border-radius: 5px;
       cursor: pointer;
       text-align: left;
     }
@@ -74,8 +115,7 @@
 <body>
 
 <h1>
-  Já pensou em aprender
-  <span class="textAzul">violão e guitarra</span>
+  Já pensou em aprender <span class="textAzul">violão e guitarra</span>
   de forma <span class="textAzul">rápida e divertida</span>?
 </h1>
 
@@ -85,40 +125,36 @@
 
 <img src="Landing pages_files/o-maior-e-mais-barato-curso-de-violao-da-internet.webp" alt="Curso de violão">
 
-<p class="textAzul">
-  Método interativo que une tecnologia com a música!
-</p>
+<p><b>Veja como é fácil aprender 👇</b></p>
 
-<p>Veja um trecho da aula:</p>
-
-<iframe width="100%" height="250"
+<iframe height="250"
 src="https://www.youtube.com/embed/-I0Rpfmafk0"
 frameborder="0" allowfullscreen></iframe>
 
-<h3>
-  Curso completo • Do zero • 100% online
-</h3>
+<a href="https://pay.hotmart.com/I59354146T" class="botao">
+  QUERO APRENDER VIOLÃO AGORA 🎸
+</a>
 
-<p class="textVermelho">VOCÊ VAI APRENDER:</p>
+<div class="card">
+  <p class="textVermelho">VOCÊ VAI APRENDER:</p>
 
-<ul class="lista">
-  <li>As partes do instrumento</li>
-  <li>Postura</li>
-  <li>Afinar o instrumento</li>
-  <li>Notas musicais</li>
-  <li>Cifras e acordes</li>
-  <li>Ritmos e batidas</li>
-  <li>Tablaturas e solos</li>
-  <li>Campo harmônico</li>
-  <li>Escalas</li>
-  <li>Treinos e exercícios</li>
-</ul>
+  <ul class="lista">
+    <li>As partes do instrumento</li>
+    <li>Postura correta</li>
+    <li>Afinar o violão</li>
+    <li>Cifras e acordes</li>
+    <li>Ritmos e batidas</li>
+    <li>Tablaturas e solos</li>
+    <li>Escalas e campo harmônico</li>
+    <li>Exercícios práticos</li>
+  </ul>
+</div>
 
-<p>
-  Ao final você estará <b>apto a tocar qualquer música!</b>
-</p>
-
-<h3>Promoção: R$ 9,90</h3>
+<div class="card">
+  <p>Aproveite a promoção:</p>
+  <p class="preco">R$ 9,90</p>
+  <p>Pagamento único • Sem mensalidade</p>
+</div>
 
 <div class="contagem">
   <div>
@@ -135,16 +171,25 @@ frameborder="0" allowfullscreen></iframe>
   </div>
 </div>
 
+<a href="https://pay.hotmart.com/I59354146T" class="botao">
+  GARANTIR MINHA VAGA AGORA 🔥
+</a>
+
 <h3>Perguntas Frequentes</h3>
 
 <details>
   <summary>O acesso é imediato?</summary>
-  <p>Sim, enviado no seu email após compra.</p>
+  <p>Sim, você recebe no seu email após a compra.</p>
 </details>
 
 <details>
   <summary>Preciso saber tocar?</summary>
   <p>Não, o curso começa do zero.</p>
+</details>
+
+<details>
+  <summary>Tem mensalidade?</summary>
+  <p>Não, pagamento único.</p>
 </details>
 
 <script>
