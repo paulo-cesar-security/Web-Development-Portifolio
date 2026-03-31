@@ -1,0 +1,106 @@
+/**
+ * Estilos para o Shortcode [fx] - Efeitos de Texto
+ *
+ * Implementa gradientes estáticos e animados para texto
+ * 
+ * Variantes de cores disponíveis:
+ * - Padrão (default): Azul-água (#30A7AA) → Roxo (#4441c4)
+ * - Verde (green): Azul-água (#30A7AA) → Verde vibrante (#10b981)
+ */
+
+/* Estilos base para todos os efeitos de texto */
+.shortcode-text-effect {
+    font-weight: 700;
+    background: linear-gradient(135deg, #30A7AA 0%, #4441c4 100%);
+    background-size: 100% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-fill-color: transparent;
+    
+    /* MUDANÇA PRINCIPAL: inline ao invés de inline-block */
+    display: inline;
+    
+    /* Otimizações de renderização */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    
+    /* Remove propriedades que podem causar quebras */
+    transform: none;
+    backface-visibility: visible;
+    margin: 0;
+    padding: 0;
+    
+    /* Garante que o texto flua naturalmente */
+    white-space: inherit;
+    word-wrap: inherit;
+    overflow-wrap: inherit;
+}
+
+/* Estilos para o efeito animado (loop) - PADRÃO (azul/roxo) */
+.shortcode-text-effect--animated {
+    background: linear-gradient(135deg, #30A7AA 0%, #4441c4 50%, #30A7AA 100%);
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-fill-color: transparent;
+    animation: shortcode-text-effect-shine 5s linear infinite;
+}
+
+/* Keyframes para a animação do gradiente */
+@keyframes shortcode-text-effect-shine {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* ========================================== */
+/* VARIANTE VERDE */
+/* ========================================== */
+
+/* Verde - Estático */
+.shortcode-text-effect--green {
+    background: linear-gradient(135deg, #30A7AA 0%, #10b981 100%);
+    background-size: 100% 100%;
+}
+
+/* Verde - Animado */
+.shortcode-text-effect--green.shortcode-text-effect--animated {
+    background: linear-gradient(135deg, #30A7AA 0%, #10b981 50%, #30A7AA 100%);
+    background-size: 200% 100%;
+}
+
+/* Garantindo compatibilidade com o editor do Elementor */
+.elementor-editor-active .shortcode-text-effect,
+.elementor-editor-preview .shortcode-text-effect {
+    background-clip: text !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    text-fill-color: transparent !important;
+}
+
+/* Compatibilidade com textos editáveis do Elementor */
+.elementor-inline-editing .shortcode-text-effect {
+    display: inline !important; /* Mantém inline para fluxo natural */
+}
+
+/* Correção específica para conteúdo em caixas de texto do Elementor */
+.elementor-widget-heading .shortcode-text-effect,
+.elementor-widget-text-editor .shortcode-text-effect {
+    display: inline !important; /* Força inline para fluxo natural */
+    transform: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    
+    /* Permite quebra natural palavra por palavra */
+    white-space: normal !important;
+    word-break: normal !important;
+    overflow-wrap: normal !important;
+}

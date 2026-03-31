@@ -1,0 +1,43 @@
+(() => {
+    'use strict';
+    
+    const initHeader = () => {
+        const header = document.querySelector('.nx-header');
+        if (!header) return;
+        
+        let ticking = false;
+        
+        const updateHeader = () => {
+            // Adiciona a classe se o scroll for maior que 1px
+            const shouldAddBackground = window.scrollY > 1;
+            header.classList.toggle('scrolled', shouldAddBackground);
+            ticking = false;
+        };
+        
+        const onScroll = () => {
+            if (!ticking) {
+                requestAnimationFrame(() => {
+                    updateHeader();
+                });
+                ticking = true;
+            }
+        };
+        
+        // Verifica o estado inicial imediatamente
+        if (window.scrollY > 1) {
+            header.classList.add('scrolled');
+        } else {
+            header.classList.remove('scrolled');
+        }
+        
+        // Adiciona o listener de scroll com passive true para melhor performance
+        window.addEventListener('scroll', onScroll, { passive: true });
+    };
+    
+    // Executa assim que o DOM estiver pronto
+    if (document.readyState !== 'loading') {
+        initHeader();
+    } else {
+        document.addEventListener('DOMContentLoaded', initHeader, { once: true });
+    }
+})();

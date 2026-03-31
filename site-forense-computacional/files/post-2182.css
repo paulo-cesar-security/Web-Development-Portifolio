@@ -1,0 +1,229 @@
+.elementor-2182 .elementor-element.elementor-element-9845f18{--display:flex;--position:fixed;--min-height:112px;--flex-direction:column;--container-widget-width:calc( ( 1 - var( --container-widget-flex-grow ) ) * 100% );--container-widget-height:initial;--container-widget-flex-grow:0;--container-widget-align-self:initial;--flex-wrap-mobile:wrap;--justify-content:space-between;--align-items:center;--flex-wrap:nowrap;top:0px;--z-index:1000;}body:not(.rtl) .elementor-2182 .elementor-element.elementor-element-9845f18{left:0px;}body.rtl .elementor-2182 .elementor-element.elementor-element-9845f18{right:0px;}.elementor-widget-progress-tracker .current-progress-percentage{font-family:var( --e-global-typography-text-font-family ), Sans-serif;font-size:var( --e-global-typography-text-font-size );font-weight:var( --e-global-typography-text-font-weight );line-height:var( --e-global-typography-text-line-height );}.elementor-2182 .elementor-element.elementor-element-3d92874 .current-progress{background-color:transparent;background-image:linear-gradient(90deg, var( --e-global-color-7a4648a ) 0%, var( --e-global-color-22a0c1b ) 100%);}.elementor-2182 .elementor-element.elementor-element-3d92874 .elementor-scrolling-tracker-horizontal{background-color:#00000000;}body:not(.rtl) .elementor-2182 .elementor-element.elementor-element-3d92874{left:0px;}body.rtl .elementor-2182 .elementor-element.elementor-element-3d92874{right:0px;}.elementor-2182 .elementor-element.elementor-element-3d92874{z-index:9999;--horizontal-progress-border:none;--horizontal-height:4px;--horizontal-border-style:none;}.elementor-2182 .elementor-element.elementor-element-e75cb85{--display:flex;--min-height:112px;--flex-direction:row;--container-widget-width:calc( ( 1 - var( --container-widget-flex-grow ) ) * 100% );--container-widget-height:100%;--container-widget-flex-grow:1;--container-widget-align-self:stretch;--flex-wrap-mobile:wrap;--justify-content:space-between;--align-items:center;--flex-wrap:nowrap;--z-index:1000;}.elementor-widget-theme-site-logo .widget-image-caption{color:var( --e-global-color-text );font-family:var( --e-global-typography-text-font-family ), Sans-serif;font-size:var( --e-global-typography-text-font-size );font-weight:var( --e-global-typography-text-font-weight );line-height:var( --e-global-typography-text-line-height );}.elementor-2182 .elementor-element.elementor-element-17f8867{width:auto;max-width:auto;text-align:left;}.elementor-2182 .elementor-element.elementor-element-17f8867 img{width:220px;max-width:160px;}.elementor-widget-theme-site-logo-alternate .widget-image-caption{color:var( --e-global-color-text );font-family:var( --e-global-typography-text-font-family ), Sans-serif;font-size:var( --e-global-typography-text-font-size );font-weight:var( --e-global-typography-text-font-weight );line-height:var( --e-global-typography-text-line-height );}.elementor-2182 .elementor-element.elementor-element-6c6b9d2{width:auto;max-width:auto;}.elementor-2182 .elementor-element.elementor-element-6c6b9d2 > .elementor-widget-container{padding:6px 0px 0px 0px;}.elementor-2182 .elementor-element.elementor-element-6c6b9d2 img{width:220px;max-width:160px;}.elementor-widget-nav-menu .elementor-nav-menu .elementor-item{font-family:var( --e-global-typography-primary-font-family ), Sans-serif;font-size:var( --e-global-typography-primary-font-size );font-weight:var( --e-global-typography-primary-font-weight );line-height:var( --e-global-typography-primary-line-height );letter-spacing:var( --e-global-typography-primary-letter-spacing );}.elementor-widget-nav-menu .elementor-nav-menu--main .elementor-item{color:var( --e-global-color-text );fill:var( --e-global-color-text );}.elementor-widget-nav-menu .elementor-nav-menu--main .elementor-item:hover,
+					.elementor-widget-nav-menu .elementor-nav-menu--main .elementor-item.elementor-item-active,
+					.elementor-widget-nav-menu .elementor-nav-menu--main .elementor-item.highlighted,
+					.elementor-widget-nav-menu .elementor-nav-menu--main .elementor-item:focus{color:var( --e-global-color-accent );fill:var( --e-global-color-accent );}.elementor-widget-nav-menu .elementor-nav-menu--main:not(.e--pointer-framed) .elementor-item:before,
+					.elementor-widget-nav-menu .elementor-nav-menu--main:not(.e--pointer-framed) .elementor-item:after{background-color:var( --e-global-color-accent );}.elementor-widget-nav-menu .e--pointer-framed .elementor-item:before,
+					.elementor-widget-nav-menu .e--pointer-framed .elementor-item:after{border-color:var( --e-global-color-accent );}.elementor-widget-nav-menu{--e-nav-menu-divider-color:var( --e-global-color-text );}.elementor-widget-nav-menu .elementor-nav-menu--dropdown .elementor-item, .elementor-widget-nav-menu .elementor-nav-menu--dropdown  .elementor-sub-item{font-family:var( --e-global-typography-accent-font-family ), Sans-serif;font-size:var( --e-global-typography-accent-font-size );font-weight:var( --e-global-typography-accent-font-weight );}.elementor-2182 .elementor-element.elementor-element-0c83385{width:100%;max-width:100%;}.elementor-2182 .elementor-element.elementor-element-0c83385 > .elementor-widget-container{padding:0px 16px 0px 0px;}.elementor-2182 .elementor-element.elementor-element-0c83385 .elementor-nav-menu .elementor-item{font-family:var( --e-global-typography-8897120-font-family ), Sans-serif;font-size:var( --e-global-typography-8897120-font-size );font-weight:var( --e-global-typography-8897120-font-weight );line-height:var( --e-global-typography-8897120-line-height );letter-spacing:var( --e-global-typography-8897120-letter-spacing );}.elementor-2182 .elementor-element.elementor-element-0c83385 .elementor-nav-menu--main .elementor-item{color:var( --e-global-color-secondary );fill:var( --e-global-color-secondary );}.elementor-2182 .elementor-element.elementor-element-0c83385 .elementor-nav-menu--main .elementor-item:hover,
+					.elementor-2182 .elementor-element.elementor-element-0c83385 .elementor-nav-menu--main .elementor-item.elementor-item-active,
+					.elementor-2182 .elementor-element.elementor-element-0c83385 .elementor-nav-menu--main .elementor-item.highlighted,
+					.elementor-2182 .elementor-element.elementor-element-0c83385 .elementor-nav-menu--main .elementor-item:focus{color:var( --e-global-color-primary );fill:var( --e-global-color-primary );}.elementor-2182 .elementor-element.elementor-element-0c83385 .elementor-nav-menu--main .elementor-item.elementor-item-active{color:var( --e-global-color-primary );}.elementor-2182 .elementor-element.elementor-element-0c83385 .elementor-nav-menu--dropdown a, .elementor-2182 .elementor-element.elementor-element-0c83385 .elementor-menu-toggle{color:var( --e-global-color-text );fill:var( --e-global-color-text );}.elementor-2182 .elementor-element.elementor-element-0c83385 .elementor-nav-menu--dropdown a:hover,
+					.elementor-2182 .elementor-element.elementor-element-0c83385 .elementor-nav-menu--dropdown a:focus,
+					.elementor-2182 .elementor-element.elementor-element-0c83385 .elementor-nav-menu--dropdown a.elementor-item-active,
+					.elementor-2182 .elementor-element.elementor-element-0c83385 .elementor-nav-menu--dropdown a.highlighted,
+					.elementor-2182 .elementor-element.elementor-element-0c83385 .elementor-menu-toggle:hover,
+					.elementor-2182 .elementor-element.elementor-element-0c83385 .elementor-menu-toggle:focus{color:var( --e-global-color-secondary );}.elementor-2182 .elementor-element.elementor-element-0c83385 .elementor-nav-menu--dropdown a:hover,
+					.elementor-2182 .elementor-element.elementor-element-0c83385 .elementor-nav-menu--dropdown a:focus,
+					.elementor-2182 .elementor-element.elementor-element-0c83385 .elementor-nav-menu--dropdown a.elementor-item-active,
+					.elementor-2182 .elementor-element.elementor-element-0c83385 .elementor-nav-menu--dropdown a.highlighted{background-color:var( --e-global-color-8ae086e );}.elementor-2182 .elementor-element.elementor-element-0c83385 .elementor-nav-menu--dropdown a.elementor-item-active{color:var( --e-global-color-116a6e7 );background-color:var( --e-global-color-primary );}.elementor-2182 .elementor-element.elementor-element-0c83385 .elementor-nav-menu--dropdown .elementor-item, .elementor-2182 .elementor-element.elementor-element-0c83385 .elementor-nav-menu--dropdown  .elementor-sub-item{font-family:var( --e-global-typography-1127637-font-family ), Sans-serif;font-size:var( --e-global-typography-1127637-font-size );font-weight:var( --e-global-typography-1127637-font-weight );letter-spacing:var( --e-global-typography-1127637-letter-spacing );}.elementor-2182 .elementor-element.elementor-element-0c83385 .elementor-nav-menu--dropdown{border-radius:16px 16px 16px 16px;}.elementor-2182 .elementor-element.elementor-element-0c83385 .elementor-nav-menu--dropdown li:first-child a{border-top-left-radius:16px;border-top-right-radius:16px;}.elementor-2182 .elementor-element.elementor-element-0c83385 .elementor-nav-menu--dropdown li:last-child a{border-bottom-right-radius:16px;border-bottom-left-radius:16px;}.elementor-2182 .elementor-element.elementor-element-0c83385 .elementor-nav-menu--main .elementor-nav-menu--dropdown, .elementor-2182 .elementor-element.elementor-element-0c83385 .elementor-nav-menu__container.elementor-nav-menu--dropdown{box-shadow:0px 0px 16px 0px rgba(0, 0, 0, 0.1);}.elementor-2182 .elementor-element.elementor-element-0c83385 .elementor-nav-menu--dropdown a{padding-left:16px;padding-right:16px;}.elementor-2182 .elementor-element.elementor-element-0c83385 .elementor-nav-menu--main > .elementor-nav-menu > li > .elementor-nav-menu--dropdown, .elementor-2182 .elementor-element.elementor-element-0c83385 .elementor-nav-menu__container.elementor-nav-menu--dropdown{margin-top:6px !important;}.elementor-2182 .elementor-element.elementor-element-d5661d1{width:var( --container-widget-width, 132px );max-width:132px;--container-widget-width:132px;--container-widget-flex-grow:0;}.elementor-widget-button .elementor-button{background-color:var( --e-global-color-accent );font-family:var( --e-global-typography-accent-font-family ), Sans-serif;font-size:var( --e-global-typography-accent-font-size );font-weight:var( --e-global-typography-accent-font-weight );}.elementor-2182 .elementor-element.elementor-element-f8e4805 .elementor-button:hover, .elementor-2182 .elementor-element.elementor-element-f8e4805 .elementor-button:focus{background-color:var( --e-global-color-923cc12 );}.elementor-2182 .elementor-element.elementor-element-f8e4805 > .elementor-widget-container{margin:0px 0px -4px 0px;}.elementor-2182 .elementor-element.elementor-element-f8e4805.elementor-element{--flex-grow:1;--flex-shrink:0;}.elementor-2182 .elementor-element.elementor-element-f8e4805 .elementor-button{font-family:var( --e-global-typography-4ce3a91-font-family ), Sans-serif;font-size:var( --e-global-typography-4ce3a91-font-size );font-weight:var( --e-global-typography-4ce3a91-font-weight );line-height:var( --e-global-typography-4ce3a91-line-height );letter-spacing:var( --e-global-typography-4ce3a91-letter-spacing );fill:var( --e-global-color-116a6e7 );color:var( --e-global-color-116a6e7 );border-radius:0px 16px 0px 16px;padding:14px 20px 14px 20px;}.elementor-widget-icon.elementor-view-stacked .elementor-icon{background-color:var( --e-global-color-primary );}.elementor-widget-icon.elementor-view-framed .elementor-icon, .elementor-widget-icon.elementor-view-default .elementor-icon{color:var( --e-global-color-primary );border-color:var( --e-global-color-primary );}.elementor-widget-icon.elementor-view-framed .elementor-icon, .elementor-widget-icon.elementor-view-default .elementor-icon svg{fill:var( --e-global-color-primary );}.elementor-2182 .elementor-element.elementor-element-b70794a > .elementor-widget-container{margin:0px 0px -10px 0px;padding:0px 0px 0px 0px;}.elementor-2182 .elementor-element.elementor-element-b70794a .elementor-icon-wrapper{text-align:center;}.elementor-2182 .elementor-element.elementor-element-b70794a.elementor-view-stacked .elementor-icon{background-color:var( --e-global-color-7a4648a );}.elementor-2182 .elementor-element.elementor-element-b70794a.elementor-view-framed .elementor-icon, .elementor-2182 .elementor-element.elementor-element-b70794a.elementor-view-default .elementor-icon{color:var( --e-global-color-7a4648a );border-color:var( --e-global-color-7a4648a );}.elementor-2182 .elementor-element.elementor-element-b70794a.elementor-view-framed .elementor-icon, .elementor-2182 .elementor-element.elementor-element-b70794a.elementor-view-default .elementor-icon svg{fill:var( --e-global-color-7a4648a );}.elementor-2182 .elementor-element.elementor-element-b70794a.elementor-view-stacked .elementor-icon:hover{background-color:var( --e-global-color-24c4935 );color:var( --e-global-color-116a6e7 );}.elementor-2182 .elementor-element.elementor-element-b70794a.elementor-view-framed .elementor-icon:hover, .elementor-2182 .elementor-element.elementor-element-b70794a.elementor-view-default .elementor-icon:hover{color:var( --e-global-color-24c4935 );border-color:var( --e-global-color-24c4935 );}.elementor-2182 .elementor-element.elementor-element-b70794a.elementor-view-framed .elementor-icon:hover, .elementor-2182 .elementor-element.elementor-element-b70794a.elementor-view-default .elementor-icon:hover svg{fill:var( --e-global-color-24c4935 );}.elementor-2182 .elementor-element.elementor-element-b70794a.elementor-view-framed .elementor-icon:hover{background-color:var( --e-global-color-116a6e7 );}.elementor-2182 .elementor-element.elementor-element-b70794a.elementor-view-stacked .elementor-icon:hover svg{fill:var( --e-global-color-116a6e7 );}.elementor-2182 .elementor-element.elementor-element-b70794a .elementor-icon{font-size:26px;padding:8px;border-radius:0px 16px 0px 16px;}.elementor-2182 .elementor-element.elementor-element-b70794a .elementor-icon svg{height:26px;}.elementor-theme-builder-content-area{height:400px;}.elementor-location-header:before, .elementor-location-footer:before{content:"";display:table;clear:both;}@media(max-width:1024px){.elementor-widget-progress-tracker .current-progress-percentage{font-size:var( --e-global-typography-text-font-size );line-height:var( --e-global-typography-text-line-height );}.elementor-widget-theme-site-logo .widget-image-caption{font-size:var( --e-global-typography-text-font-size );line-height:var( --e-global-typography-text-line-height );}.elementor-2182 .elementor-element.elementor-element-17f8867 > .elementor-widget-container{padding:0px 0px 0px 0px;}.elementor-2182 .elementor-element.elementor-element-17f8867.elementor-element{--flex-grow:1;--flex-shrink:0;}.elementor-widget-theme-site-logo-alternate .widget-image-caption{font-size:var( --e-global-typography-text-font-size );line-height:var( --e-global-typography-text-line-height );}.elementor-widget-nav-menu .elementor-nav-menu .elementor-item{font-size:var( --e-global-typography-primary-font-size );line-height:var( --e-global-typography-primary-line-height );letter-spacing:var( --e-global-typography-primary-letter-spacing );}.elementor-widget-nav-menu .elementor-nav-menu--dropdown .elementor-item, .elementor-widget-nav-menu .elementor-nav-menu--dropdown  .elementor-sub-item{font-size:var( --e-global-typography-accent-font-size );}.elementor-2182 .elementor-element.elementor-element-0c83385.elementor-element{--flex-grow:0;--flex-shrink:0;}.elementor-2182 .elementor-element.elementor-element-0c83385 .elementor-nav-menu .elementor-item{font-size:var( --e-global-typography-8897120-font-size );line-height:var( --e-global-typography-8897120-line-height );letter-spacing:var( --e-global-typography-8897120-letter-spacing );}.elementor-2182 .elementor-element.elementor-element-0c83385 .elementor-nav-menu--dropdown .elementor-item, .elementor-2182 .elementor-element.elementor-element-0c83385 .elementor-nav-menu--dropdown  .elementor-sub-item{font-size:var( --e-global-typography-1127637-font-size );letter-spacing:var( --e-global-typography-1127637-letter-spacing );}.elementor-widget-button .elementor-button{font-size:var( --e-global-typography-accent-font-size );}.elementor-2182 .elementor-element.elementor-element-f8e4805 .elementor-button{font-size:var( --e-global-typography-4ce3a91-font-size );line-height:var( --e-global-typography-4ce3a91-line-height );letter-spacing:var( --e-global-typography-4ce3a91-letter-spacing );}}@media(max-width:767px){.elementor-widget-progress-tracker .current-progress-percentage{font-size:var( --e-global-typography-text-font-size );line-height:var( --e-global-typography-text-line-height );}.elementor-2182 .elementor-element.elementor-element-e75cb85{--content-width:100%;--gap:8px 8px;--row-gap:8px;--column-gap:8px;}.elementor-widget-theme-site-logo .widget-image-caption{font-size:var( --e-global-typography-text-font-size );line-height:var( --e-global-typography-text-line-height );}.elementor-2182 .elementor-element.elementor-element-17f8867 > .elementor-widget-container{padding:0px 0px 15px 0px;}.elementor-2182 .elementor-element.elementor-element-17f8867 img{width:160px;}.elementor-widget-theme-site-logo-alternate .widget-image-caption{font-size:var( --e-global-typography-text-font-size );line-height:var( --e-global-typography-text-line-height );}.elementor-2182 .elementor-element.elementor-element-6c6b9d2.elementor-element{--flex-grow:1;--flex-shrink:0;}.elementor-2182 .elementor-element.elementor-element-6c6b9d2 img{width:160px;}.elementor-widget-nav-menu .elementor-nav-menu .elementor-item{font-size:var( --e-global-typography-primary-font-size );line-height:var( --e-global-typography-primary-line-height );letter-spacing:var( --e-global-typography-primary-letter-spacing );}.elementor-widget-nav-menu .elementor-nav-menu--dropdown .elementor-item, .elementor-widget-nav-menu .elementor-nav-menu--dropdown  .elementor-sub-item{font-size:var( --e-global-typography-accent-font-size );}.elementor-2182 .elementor-element.elementor-element-0c83385.elementor-element{--flex-grow:0;--flex-shrink:0;}.elementor-2182 .elementor-element.elementor-element-0c83385 .elementor-nav-menu .elementor-item{font-size:var( --e-global-typography-8897120-font-size );line-height:var( --e-global-typography-8897120-line-height );letter-spacing:var( --e-global-typography-8897120-letter-spacing );}.elementor-2182 .elementor-element.elementor-element-0c83385 .elementor-nav-menu--dropdown .elementor-item, .elementor-2182 .elementor-element.elementor-element-0c83385 .elementor-nav-menu--dropdown  .elementor-sub-item{font-size:var( --e-global-typography-1127637-font-size );letter-spacing:var( --e-global-typography-1127637-letter-spacing );}.elementor-2182 .elementor-element.elementor-element-d5661d1{--container-widget-width:90px;--container-widget-flex-grow:0;width:var( --container-widget-width, 90px );max-width:90px;}.elementor-widget-button .elementor-button{font-size:var( --e-global-typography-accent-font-size );}.elementor-2182 .elementor-element.elementor-element-f8e4805 .elementor-button{font-size:var( --e-global-typography-4ce3a91-font-size );line-height:var( --e-global-typography-4ce3a91-line-height );letter-spacing:var( --e-global-typography-4ce3a91-letter-spacing );}}/* Start custom CSS for progress-tracker, class: .elementor-element-3d92874 */.elementor-scrolling-tracker-horizontal {
+        background-color: transparent!important
+}/* End custom CSS */
+/* Start custom CSS for nav-menu, class: .elementor-element-0c83385 */@media (min-width: 1025px) {
+  .nx-hidden-desktop {
+    display: none !important;
+  }
+}
+
+@media (max-width:768px){
+    .nx-hidden-mobile {
+        display:none;
+    }
+}/* End custom CSS */
+/* Start custom CSS for shortcode, class: .elementor-element-d5661d1 *//* Estilização do seletor GTranslate - com hover cinza e texto preto */
+#mobili-translate select,
+#mobili-translate .gt_.elementor-2182 .elementor-element.elementor-element-d5661d1 {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  font-size: 0.75rem !important;
+  padding: 2px 14px 2px 6px !important;
+  width: auto !important;
+  transition: all .3s !important;
+  background-color: transparent !important;
+  color:rgba(255, 255, 255, 0.5) !important;
+  max-width: 70px !important;
+  min-width: auto !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  appearance: none !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 24 24' fill='none' stroke='%23333' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E") !important;
+  background-repeat: no-repeat !important;
+  background-position: right 4px center !important;
+  cursor: pointer !important;
+  margin: 0 !important;
+  text-indent: 0 !important;
+}
+
+/* Remover bordas e alterar cores no focus e active */
+#mobili-translate select:focus,
+#mobili-translate .gt_.elementor-2182 .elementor-element.elementor-element-d5661d1:focus {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+} 
+
+/* Mudar cor de hover para cinza e texto para preto */
+#mobili-translate select:hover,
+#mobili-translate .gt_.elementor-2182 .elementor-element.elementor-element-d5661d1:hover,
+#mobili-translate select option:hover,
+#mobili-translate .gt_.elementor-2182 .elementor-element.elementor-element-d5661d1 option:hover {
+  background-color:rgba(0,0,0,0.05) !important; 
+  border-radius: 10px !important;
+  color: #FFF !important;
+}
+
+/* Mudar cor da opção ativa para cinza e texto para preto */
+#mobili-translate select option:checked,
+#mobili-translate .gt_.elementor-2182 .elementor-element.elementor-element-d5661d1 option:checked,
+#mobili-translate select option:active,
+#mobili-translate .gt_.elementor-2182 .elementor-element.elementor-element-d5661d1 option:active {
+  background-color: #e0e0e0 !important; /* Cinza claro */
+  color: #000 !important; /* Preto */
+}
+
+/* Remover totalmente as bordas do dropdown e ajustar cores */
+#mobili-translate select option,
+#mobili-translate .gt_.elementor-2182 .elementor-element.elementor-element-d5661d1 option {
+  background-color: white !important;
+  color: #000 !important;
+  font-size: 0.75rem !important;
+  padding: 2px 2px !important;
+  border: none !important;
+  margin: 0 !important;
+}
+
+
+/* Esconder o elemento do Google Translate */
+#mobili-translate #google_translate_element2 {
+  display: none !important;
+}
+
+/* Remover scrollbar */
+#mobili-translate .gt_.elementor-2182 .elementor-element.elementor-element-d5661d1::-webkit-scrollbar {
+  display: none !important;
+}
+
+/* Remover a borda quando o seletor é clicado */
+#mobili-translate .gt_.elementor-2182 .elementor-element.elementor-element-d5661d1:active,
+#mobili-translate .gt_.elementor-2182 .elementor-element.elementor-element-d5661d1:focus-within {
+  outline: 0 !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0!important;
+}
+
+/* Adicionar isto para lidar com navegadores específicos */
+#mobili-translate .gtranslate_wrapper {
+  border: none !important;
+  outline: none !important;
+  display: inline-block !important;
+}
+
+/* Para Firefox */
+#mobili-translate select:-moz-focusring {
+  color: transparent !important;
+  text-shadow: 0 0 0 #000 !important;
+}
+
+/* Para IE/Edge */
+#mobili-translate select::-ms-expand {
+  display: none !important;
+}
+
+/* Para remover qualquer estilo de dropdown no Chrome */
+@supports (-webkit-appearance: none) {
+  #mobili-translate .gt_.elementor-2182 .elementor-element.elementor-element-d5661d1,
+  #mobili-translate select {
+    -webkit-appearance: none !important;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+  }
+}
+
+/*Icon*/
+/* CSS para alinhar o ícone do globo com o seletor de idiomas */
+
+/* Adicione este CSS ao seu Elementor ou ao style.css do tema */
+
+#mobili-translate .elementor-shortcode {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+#mobili-translate .jki-globe-line {
+  margin-right: 8px;
+  display: inline-flex;
+  align-items: center;
+  opacity: 0.8;
+  color: #333;
+  vertical-align: middle;
+}
+
+#mobili-translate .gtranslate_wrapper {
+  display: inline-flex;
+  align-items: center;
+}
+
+/* Se necessário, ajuste o tamanho e posicionamento vertical do ícone */
+#mobili-translate .jki-globe-line {
+  position: relative;
+  top: 0;  /* Ajuste este valor se precisar mover o ícone para cima ou para baixo */
+}
+
+/* Ajuste de espaçamento entre o ícone e o seletor */
+#mobili-translate .elementor-shortcode > .jki {
+  margin-right: 4px; 
+}
+
+/* Remover bordas do dropdown quando aberto */
+#mobili-translate select,
+#mobili-translate .gt_.elementor-2182 .elementor-element.elementor-element-d5661d1,
+#mobili-translate .gt_.elementor-2182 .elementor-element.elementor-element-d5661d1 option,
+#mobili-translate select option {
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Forçar remoção de bordas no dropdown */
+#mobili-translate .goog-te-combo,
+#mobili-translate .goog-te-menu-frame,
+#mobili-translate .goog-te-menu-value,
+#mobili-translate .goog-te-menu,
+#mobili-translate .goog-te-menu2,
+#mobili-translate .goog-te-menu2-item,
+#mobili-translate .goog-te-menu2-item div {
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* Estilos adicionais para garantir que não haja bordas no dropdown */
+#mobili-translate .gt_.elementor-2182 .elementor-element.elementor-element-d5661d1:focus,
+#mobili-translate select:focus,
+#mobili-translate .gt_.elementor-2182 .elementor-element.elementor-element-d5661d1 option:focus,
+#mobili-translate select option:focus {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Remover bordas do container do dropdown */
+#mobili-translate .skiptranslate,
+#mobili-translate .goog-te-gadget,
+#mobili-translate .goog-te-menu-frame,
+#mobili-translate .goog-te-menu-value,
+#mobili-translate .goog-te-gadget-simple {
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* Estilos para o dropdown quando aberto */
+#mobili-translate .gt_.elementor-2182 .elementor-element.elementor-element-d5661d1 option,
+#mobili-translate select option {
+  border-bottom: none !important;
+  border-top: none !important;
+  border-left: none !important;
+  border-right: none !important;
+}/* End custom CSS */

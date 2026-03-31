@@ -1,0 +1,246 @@
+// Função global para inicializar todos os widgets personalizados
+function initAllCustomWidgets() {
+    // Inicializar widget-list-slide
+    initListSlideWidgets();
+    
+    // Aqui você pode adicionar a inicialização de outros widgets futuros
+    // initWidgetXYZ();
+}
+
+// Função para inicializar todos os slides list
+function initListSlideWidgets() {
+    document.querySelectorAll('.widget-list-slide').forEach(function(slider) {
+        if (slider.getAttribute('data-initialized') === 'true') return;
+        
+        const sliderId = slider.id;
+        const settings = JSON.parse(slider.getAttribute('data-settings') || '{}');
+        const items = slider.querySelectorAll('.widget-list-slide__item');
+        const dots = slider.querySelectorAll('.widget-list-slide__pagination-dot');
+        let activeIndex = 0;
+        let autoplayTimer = null;
+        const itemCount = items.length;
+        
+        // Marcar como inicializado para evitar duplicação
+        slider.setAttribute('data-initialized', 'true');
+        
+        // Configurações de estilo
+        const animationSpeed = settings.animationSpeed || 500;
+        document.documentElement.style.setProperty('--slide-animation-speed', animationSpeed + 'ms');
+        
+        // Função para calcular e definir a altura igual para todos os cards
+        function equalizeCardHeights() {
+            let maxHeight = 0;
+            const minHeight = 160; // Altura mínima padrão
+            
+            // Primeiro redefine qualquer altura previamente definida e mede todos os cards
+            items.forEach(function(item) {
+                // Reset para medição real
+                item.style.height = 'auto';
+                
+                // Precisamos deixar o item visível para medir corretamente
+                const originalVisibility = item.style.visibility;
+                const originalOpacity = item.style.opacity;
+                const originalPosition = item.style.position;
+                const originalTransform = item.style.transform;
+                
+                item.style.visibility = 'hidden';
+                item.style.opacity = '0';
+                item.style.position = 'relative';
+                item.style.transform = 'none';
+                
+                // Mede a altura natural
+                const itemHeight = item.offsetHeight;
+                maxHeight = Math.max(maxHeight, itemHeight, minHeight);
+                
+                // Restaura propriedades originais
+                item.style.visibility = originalVisibility;
+                item.style.opacity = originalOpacity;
+                item.style.position = originalPosition;
+                item.style.transform = originalTransform;
+            });
+            
+            // Aplica a altura máxima a todos os cards
+            items.forEach(function(item) {
+                item.style.height = maxHeight + 'px';
+            });
+            
+            // Atualiza a altura do wrapper para acomodar os cards
+            const wrapper = slider.querySelector('.widget-list-slide__wrapper');
+            if (wrapper) {
+                wrapper.style.minHeight = (maxHeight + 40) + 'px'; // 40px extra para margem
+            }
+        }
+        
+        // Função para mostrar um slide específico
+        function showSlide(index) {
+            if (index < 0) {
+                index = settings.infinite ? itemCount - 1 : 0;
+            } else if (index >= itemCount) {
+                index = settings.infinite ? 0 : itemCount - 1;
+            }
+            
+            // Atualiza classes dos slides
+            items.forEach(function(item, i) {
+                // Calcula posição relativa ao slide ativo, garantindo valor positivo
+                const position = (i - index + itemCount) % itemCount;
+                
+                // Remove todas as classes de posição
+                item.classList.remove('active', 'next', 'prev', 'far', 'hidden');
+                
+                // Define opacidade progressiva
+                const opacity = Math.max(0.1, 1 - (position * 0.2));
+                
+                // Define um deslocamento Z consistente
+                const zDistance = position * 60;
+                
+                // Define um deslocamento Y consistente, mas não tão alto
+                const yOffset = position * 10;
+                
+                // Define uma escala progressiva
+                const scale = Math.max(0.7, 1 - (position * 0.05));
+                
+                // Define z-index decrescente
+                const zIndex = 30 - position;
+                
+                // Aplica estilos baseados na posição
+                if (position === 0) {
+                    // Cartão ativo
+                    item.classList.add('active');
+                    item.style.zIndex = '30';
+                    item.style.opacity = '1';
+                    item.style.transform = 'translateZ(0) translateY(0) scale(1)';
+                    item.style.visibility = 'visible';
+                } else {
+                    // Todos os outros cartões
+                    item.classList.add(position === 1 ? 'next' : (position === 2 ? 'prev' : 'far'));
+                    item.style.zIndex = zIndex.toString();
+                    item.style.opacity = opacity.toString();
+                    item.style.transform = 'translateZ(-' + zDistance + 'px) translateY(-' + yOffset + 'px) scale(' + scale + ')';
+                    item.style.visibility = position < 5 ? 'visible' : 'hidden'; // Limita a 5 cartões visíveis
+                }
+            });
+            
+            // Atualiza paginação
+            dots.forEach(function(dot, i) {
+                dot.classList.toggle('active', i === index);
+            });
+            
+            activeIndex = index;
+        }
+        
+        // Inicializa o primeiro slide
+        showSlide(0);
+        
+        // Função para avançar para o próximo slide
+        function nextSlide() {
+            showSlide(activeIndex + 1);
+        }
+        
+        // Função para voltar para o slide anterior
+        function prevSlide() {
+            showSlide(activeIndex - 1);
+        }
+        
+        // Configura o autoplay
+        function startAutoplay() {
+            if (settings.autoplay && !autoplayTimer) {
+                autoplayTimer = setInterval(nextSlide, settings.autoplaySpeed || 5000);
+            }
+        }
+        
+        // Função para parar o autoplay
+        function stopAutoplay() {
+            if (autoplayTimer) {
+                clearInterval(autoplayTimer);
+                autoplayTimer = null;
+            }
+        }
+        
+        // Evento de clique nas bolinhas de paginação
+        dots.forEach(function(dot) {
+            dot.addEventListener('click', function() {
+                const index = parseInt(this.getAttribute('data-index'));
+                showSlide(index);
+                
+                if (settings.pauseOnInteraction && settings.autoplay) {
+                    stopAutoplay();
+                    if (settings.autoplay) {
+                        startAutoplay();
+                    }
+                }
+            });
+        });
+        
+        // Chamar imediatamente para igualar alturas
+        setTimeout(equalizeCardHeights, 100);
+        
+        // Chamar também quando a janela for redimensionada
+        window.addEventListener('resize', equalizeCardHeights);
+        
+        // Evento de hover para pausar o autoplay
+        if (settings.pauseOnHover && settings.autoplay) {
+            slider.addEventListener('mouseenter', stopAutoplay);
+            slider.addEventListener('mouseleave', startAutoplay);
+        }
+        
+        // Suporte a swipe para dispositivos móveis
+        let touchStartX = 0;
+        let touchEndX = 0;
+        
+        slider.addEventListener('touchstart', function(e) {
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+        
+        slider.addEventListener('touchend', function(e) {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        }, { passive: true });
+        
+        function handleSwipe() {
+            const swipeThreshold = 50;
+            if (touchEndX < touchStartX - swipeThreshold) {
+                // Swipe para a esquerda (próximo)
+                nextSlide();
+            } else if (touchEndX > touchStartX + swipeThreshold) {
+                // Swipe para a direita (anterior)
+                prevSlide();
+            }
+            
+            if (settings.pauseOnInteraction && settings.autoplay) {
+                stopAutoplay();
+                startAutoplay();
+            }
+        }
+        
+        // Inicia o autoplay se configurado
+        if (settings.autoplay) {
+            startAutoplay();
+        }
+    });
+}
+
+// Executar quando o DOM estiver pronto
+document.addEventListener('DOMContentLoaded', function() {
+    initAllCustomWidgets();
+});
+
+// Para o Editor Elementor - Executar quando o editor carregar
+if (typeof window.elementorFrontend !== 'undefined') {
+    window.elementorFrontend.hooks.addAction('frontend/element_ready/widget', function() {
+        initAllCustomWidgets();
+    });
+}
+
+// Eventos específicos do editor Elementor
+window.addEventListener('elementor/frontend/init', function() {
+    if (typeof elementorFrontend !== 'undefined' && typeof elementorFrontend.hooks !== 'undefined') {
+        elementorFrontend.hooks.addAction('frontend/element_ready/global', function() {
+            initAllCustomWidgets();
+        });
+        
+        // Caso específico para o widget list_slide
+        elementorFrontend.hooks.addAction('frontend/element_ready/list_slide.default', function() {
+            initListSlideWidgets();
+        });
+    }
+});

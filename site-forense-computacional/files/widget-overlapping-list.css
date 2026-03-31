@@ -1,0 +1,709 @@
+/* ==========================================
+   WIDGET: LISTA SOBREPOSTA - CSS CORRIGIDO
+   Versão 2.3 - Foco do card corrigido
+   ========================================== */
+
+/* ==========================================
+   VARIÁVEIS CSS CUSTOMIZÁVEIS
+   ========================================== */
+:root {
+  /* Espaçamentos */
+  --overlapping-spacing-xs: 5px;
+  --overlapping-spacing-sm: 10px;
+  --overlapping-spacing-md: 15px;
+  --overlapping-spacing-lg: 20px;
+  --overlapping-spacing-xl: 30px;
+  
+  /* Transições */
+  --overlapping-transition-speed: 0.3s;
+  --overlapping-transition: all var(--overlapping-transition-speed) ease;
+  --overlapping-animation-speed: 0.8s;
+  
+  /* Cores padrão (podem ser sobrescritas pelos controles) */
+  --overlapping-primary-color: var(--e-global-color-primary, #007cba);
+  --overlapping-accent-color: var(--e-global-color-accent, #61ce70);
+  --overlapping-text-color: var(--e-global-color-text, #333333);
+  --overlapping-bg-color: #ffffff;
+  
+  /* Configurações de sobreposição */
+  --overlapping-card-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  --overlapping-card-radius: 12px;
+}
+
+/* ==========================================
+   ESTRUTURA PRINCIPAL
+   ========================================== */
+.widget-overlapping-list {
+  position: relative;
+  width: 100%;
+  font-family: inherit;
+  min-height: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.widget-overlapping-list__container {
+  position: relative;
+  width: 100%;
+  display: block;
+  overflow: visible;
+  min-height: calc(var(--overlapping-items-count, 3) * 200px + 100px);
+}
+
+/* ==========================================
+   CARDS - ESTRUTURA BASE
+   ========================================== */
+.widget-overlapping-list__item {
+  position: sticky;
+  width: 100%;
+  background-color: var(--overlapping-bg-color);
+  border-radius: var(--overlapping-card-radius);
+  box-shadow: var(--overlapping-card-shadow);
+  transition: var(--overlapping-transition);
+  box-sizing: border-box;
+  
+  /* Configurações para sticky funcionar em flexbox */
+  flex-shrink: 0;
+  align-self: stretch;
+  
+  /* Melhorias de performance */
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+}
+
+/* ==========================================
+   CORREÇÕES PARA CONTAINERS FLEXBOX ELEMENTOR
+   ========================================== */
+
+/* Quando o widget está dentro de um container flexbox */
+.e-con.e-flex .widget-overlapping-list,
+.elementor-container .widget-overlapping-list,
+.e-container .widget-overlapping-list {
+  min-height: auto;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+/* Container pai do Elementor precisa permitir overflow */
+.e-con.e-flex:has(.widget-overlapping-list),
+.elementor-container:has(.widget-overlapping-list),
+.e-container:has(.widget-overlapping-list) {
+  overflow: visible !important;
+  position: relative !important;
+  min-height: auto !important;
+}
+
+/* Fallback para navegadores sem :has() */
+.elementor-widget-overlapping_list {
+  width: 100%;
+  height: auto;
+}
+
+.elementor-widget-overlapping_list .elementor-widget-container {
+  height: auto;
+  overflow: visible !important;
+}
+
+/* Força o container Elementor a ter altura adequada */
+.e-con:has(.widget-overlapping-list) {
+  min-height: auto !important;
+}
+
+/* Container flex específico */
+.e-con.e-flex[data-settings*="flex_direction:column"]:has(.widget-overlapping-list) {
+  min-height: auto !important;
+  overflow: visible !important;
+  position: relative !important;
+}
+
+/* ==========================================
+   EFEITO CASCATA RESTAURADO - ESTADOS INICIAIS
+   ========================================== */
+
+/* PRIMEIRO CARD - Sempre 100% visível */
+.widget-overlapping-list[data-animations="yes"] .widget-overlapping-list__item:nth-child(1) {
+  opacity: 1;
+  transform: translateY(0) scale(1) translateZ(0);
+}
+
+/* SEGUNDO CARD - Ligeiramente reduzido */
+.widget-overlapping-list[data-animations="yes"] .widget-overlapping-list__item:nth-child(2) {
+  opacity: 0.7;
+  transform: translateY(30px) scale(0.95) translateZ(0);
+}
+
+/* TERCEIRO CARD - Mais reduzido */
+.widget-overlapping-list[data-animations="yes"] .widget-overlapping-list__item:nth-child(3) {
+  opacity: 0.5;
+  transform: translateY(50px) scale(0.9) translateZ(0);
+}
+
+/* QUARTO CARD - Ainda mais reduzido */
+.widget-overlapping-list[data-animations="yes"] .widget-overlapping-list__item:nth-child(4) {
+  opacity: 0.3;
+  transform: translateY(70px) scale(0.85) translateZ(0);
+}
+
+/* QUINTO CARD E DEMAIS - Máximo de redução */
+.widget-overlapping-list[data-animations="yes"] .widget-overlapping-list__item:nth-child(n+5) {
+  opacity: 0.2;
+  transform: translateY(90px) scale(0.8) translateZ(0);
+}
+
+/* ESTADO ATIVO - Quando card entra em foco durante scroll */
+.widget-overlapping-list__item.animate-in {
+  opacity: 1 !important;
+  transform: translateY(0) scale(1) translateZ(0) !important;
+  transition: opacity var(--overlapping-animation-speed) cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              transform var(--overlapping-animation-speed) cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* ==========================================
+   REMOÇÃO DA LINHA VERDE DE SELEÇÃO
+   ========================================== */
+
+/* Remove outline verde no editor do Elementor */
+.widget-overlapping-list__item:focus,
+.widget-overlapping-list__item:focus-within,
+.widget-overlapping-list__item:focus-visible {
+  outline: none !important;
+  box-shadow: var(--overlapping-card-shadow) !important;
+}
+
+/* Remove border verde de seleção */
+.widget-overlapping-list__item {
+  border: none !important;
+}
+
+/* Remove qualquer highlight verde */
+.widget-overlapping-list__item::before,
+.widget-overlapping-list__item::after {
+  display: none !important;
+}
+
+/* Específico para Elementor Editor */
+.elementor-editor-active .widget-overlapping-list__item {
+  outline: none !important;
+  border: none !important;
+}
+
+.elementor-editor-active .widget-overlapping-list__item:hover {
+  outline: none !important;
+  border: none !important;
+}
+
+/* ==========================================
+   LINKS NO CARD INTEIRO - FOCO CORRIGIDO
+   ========================================== */
+
+/* Link invisível que cobre todo o card */
+.widget-overlapping-list__link {
+  display: block;
+  width: 100%;
+  height: 100%;
+  text-decoration: none;
+  color: inherit;
+  border-radius: inherit;
+  transition: var(--overlapping-transition);
+  /* Remover outline do link em si */
+  outline: none !important;
+}
+
+.widget-overlapping-list__link:hover {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* CORREÇÃO: Foco aplicado ao card inteiro quando tem link */
+.widget-overlapping-list__item[data-has-link="true"]:focus-within {
+  outline: 2px solid var(--overlapping-accent-color);
+  outline-offset: 2px;
+  border-radius: var(--overlapping-card-radius);
+}
+
+/* Foco alternativo para navegadores que não suportam :focus-within */
+.widget-overlapping-list__item[data-has-link="true"]:focus {
+  outline: 2px solid var(--overlapping-accent-color);
+  outline-offset: 2px;
+  border-radius: var(--overlapping-card-radius);
+}
+
+/* Garantir que o card seja focável quando tem link */
+.widget-overlapping-list__item[data-has-link="true"] {
+  cursor: pointer;
+  /* Tornar o card focável via teclado */
+  tabindex: 0;
+}
+
+/* Remover foco dos elementos internos quando card tem link */
+.widget-overlapping-list__item[data-has-link="true"] .widget-overlapping-list__link:focus {
+  outline: none !important;
+}
+
+.widget-overlapping-list__item[data-has-link="true"] .widget-overlapping-list__icon:focus,
+.widget-overlapping-list__item[data-has-link="true"] .widget-overlapping-list__item-title:focus,
+.widget-overlapping-list__item[data-has-link="true"] .widget-overlapping-list__item-description:focus {
+  outline: none !important;
+}
+
+/* Para cards sem link, manter comportamento normal */
+.widget-overlapping-list__item:not([data-has-link="true"]) {
+  cursor: default;
+}
+
+/* ==========================================
+   CONTEÚDO DO CARD
+   ========================================== */
+.widget-overlapping-list__item-content {
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+  height: 100%;
+}
+
+.widget-overlapping-list__text-content {
+  flex-grow: 1;
+  min-width: 0;
+}
+
+/* ==========================================
+   ÍCONES COMPLETOS
+   ========================================== */
+.widget-overlapping-list__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--overlapping-accent-color);
+  transition: var(--overlapping-transition);
+}
+
+.widget-overlapping-list__icon i,
+.widget-overlapping-list__icon svg {
+  display: block;
+  color: inherit;
+  fill: currentColor;
+}
+
+/* Formas do container do ícone */
+.icon-view-solid .widget-overlapping-list__icon {
+  padding: var(--overlapping-spacing-sm);
+  background-color: var(--overlapping-accent-color);
+  color: #ffffff;
+}
+
+.icon-view-outline .widget-overlapping-list__icon {
+  padding: var(--overlapping-spacing-sm);
+  background-color: transparent;
+  border: 2px solid var(--overlapping-accent-color);
+  color: var(--overlapping-accent-color);
+}
+
+/* Formas - Círculo */
+.icon-shape-circle .widget-overlapping-list__icon {
+  border-radius: 50%;
+}
+
+/* Formas - Quadrado */
+.icon-shape-square .widget-overlapping-list__icon {
+  border-radius: 4px;
+}
+
+/* ==========================================
+   POSICIONAMENTO DO ÍCONE (LEFT/TOP/RIGHT)
+   ========================================== */
+
+/* Posição: À esquerda (padrão) */
+.icon-position-left .widget-overlapping-list__item-content {
+  flex-direction: row;
+  align-items: flex-start;
+}
+
+.icon-position-left .widget-overlapping-list__icon {
+  order: 1;
+  margin-right: var(--overlapping-spacing-md);
+  margin-left: 0;
+  margin-bottom: 0;
+}
+
+.icon-position-left .widget-overlapping-list__text-content {
+  order: 2;
+  flex: 1;
+}
+
+/* Posição: À direita */
+.icon-position-right .widget-overlapping-list__item-content {
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.icon-position-right .widget-overlapping-list__icon {
+  order: 2;
+  margin-left: var(--overlapping-spacing-md);
+  margin-right: 0;
+  margin-bottom: 0;
+}
+
+.icon-position-right .widget-overlapping-list__text-content {
+  order: 1;
+  flex: 1;
+}
+
+/* Posição: Acima */
+.icon-position-top .widget-overlapping-list__item-content {
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.icon-position-top .widget-overlapping-list__icon {
+  order: 1;
+  margin-right: 0;
+  margin-left: 0;
+  margin-bottom: var(--overlapping-spacing-md);
+}
+
+.icon-position-top .widget-overlapping-list__text-content {
+  order: 2;
+  width: 100%;
+}
+
+/* ==========================================
+   INTERATIVIDADE DOS CARDS
+   ========================================== */
+
+/* Cards com links ficam clicáveis */
+.widget-overlapping-list__item:has(.widget-overlapping-list__link) {
+  cursor: pointer;
+}
+
+/* Fallback para navegadores sem :has() */
+.widget-overlapping-list__link {
+  cursor: pointer;
+}
+
+/* Transições suaves para todos os elementos */
+.widget-overlapping-list__item,
+.widget-overlapping-list__item-title,
+.widget-overlapping-list__item-description,
+.widget-overlapping-list__icon {
+  transition: var(--overlapping-transition);
+}
+
+/* ==========================================
+   SISTEMA DE Z-INDEX PARA SOBREPOSIÇÃO
+   ========================================== */
+.widget-overlapping-list__item:nth-child(1) { z-index: 10; }
+.widget-overlapping-list__item:nth-child(2) { z-index: 11; }
+.widget-overlapping-list__item:nth-child(3) { z-index: 12; }
+.widget-overlapping-list__item:nth-child(4) { z-index: 13; }
+.widget-overlapping-list__item:nth-child(5) { z-index: 14; }
+.widget-overlapping-list__item:nth-child(6) { z-index: 15; }
+.widget-overlapping-list__item:nth-child(7) { z-index: 16; }
+.widget-overlapping-list__item:nth-child(8) { z-index: 17; }
+.widget-overlapping-list__item:nth-child(9) { z-index: 18; }
+.widget-overlapping-list__item:nth-child(10) { z-index: 19; }
+
+/* ==========================================
+   CONTEÚDO DE TEXTO
+   ========================================== */
+
+/* Título do Item */
+.widget-overlapping-list__item-title {
+  font-weight: 600;
+  margin-bottom: var(--overlapping-spacing-sm);
+  color: var(--overlapping-primary-color);
+  transition: var(--overlapping-transition);
+  line-height: 1.4;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+/* Descrição do Item */
+.widget-overlapping-list__item-description {
+  color: var(--overlapping-text-color);
+  line-height: 1.6;
+  margin: 0;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+}
+
+.widget-overlapping-list__item-description p:last-child {
+  margin-bottom: 0;
+}
+
+/* ==========================================
+   ALTURA UNIFORME DOS CARDS
+   ========================================== */
+.widget-overlapping-list[data-uniform-height="yes"] .widget-overlapping-list__item {
+  min-height: var(--uniform-card-height, 200px);
+}
+
+.widget-overlapping-list[data-uniform-height="yes"] .widget-overlapping-list__item-content {
+  height: 100%;
+  align-items: stretch;
+}
+
+.widget-overlapping-list[data-uniform-height="yes"] .widget-overlapping-list__text-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  height: 100%;
+}
+
+/* ==========================================
+   RESPONSIVIDADE
+   ========================================== */
+
+/* Tablet */
+@media (max-width: 1024px) {
+  :root {
+    --overlapping-spacing-xs: 4px;
+    --overlapping-spacing-sm: 8px;
+    --overlapping-spacing-md: 12px;
+    --overlapping-spacing-lg: 16px;
+    --overlapping-spacing-xl: 24px;
+  }
+  
+  .widget-overlapping-list {
+    min-height: auto;
+  }
+  
+  /* Reduzir valores de transformação no tablet */
+  .widget-overlapping-list[data-animations="yes"] .widget-overlapping-list__item:nth-child(2) {
+    transform: translateY(20px) scale(0.97) translateZ(0);
+  }
+  
+  .widget-overlapping-list[data-animations="yes"] .widget-overlapping-list__item:nth-child(3) {
+    transform: translateY(35px) scale(0.94) translateZ(0);
+  }
+  
+  .widget-overlapping-list[data-animations="yes"] .widget-overlapping-list__item:nth-child(4) {
+    transform: translateY(50px) scale(0.91) translateZ(0);
+  }
+  
+  .widget-overlapping-list[data-animations="yes"] .widget-overlapping-list__item:nth-child(n+5) {
+    transform: translateY(65px) scale(0.88) translateZ(0);
+  }
+}
+
+/* Mobile */
+@media (max-width: 767px) {
+  :root {
+    --overlapping-spacing-xs: 3px;
+    --overlapping-spacing-sm: 6px;
+    --overlapping-spacing-md: 10px;
+    --overlapping-spacing-lg: 12px;
+    --overlapping-spacing-xl: 20px;
+  }
+  
+  .widget-overlapping-list {
+    min-height: auto;
+  }
+  
+  /* Reduzir ainda mais no mobile */
+  .widget-overlapping-list[data-animations="yes"] .widget-overlapping-list__item:nth-child(2) {
+    transform: translateY(15px) scale(0.98) translateZ(0);
+  }
+  
+  .widget-overlapping-list[data-animations="yes"] .widget-overlapping-list__item:nth-child(3) {
+    transform: translateY(25px) scale(0.96) translateZ(0);
+  }
+  
+  .widget-overlapping-list[data-animations="yes"] .widget-overlapping-list__item:nth-child(4) {
+    transform: translateY(35px) scale(0.94) translateZ(0);
+  }
+  
+  .widget-overlapping-list[data-animations="yes"] .widget-overlapping-list__item:nth-child(n+5) {
+    transform: translateY(45px) scale(0.92) translateZ(0);
+  }
+}
+
+/* ==========================================
+   UTILITÁRIOS E ACESSIBILIDADE
+   ========================================== */
+
+/* Suporte para usuários com preferência por movimento reduzido */
+@media (prefers-reduced-motion: reduce) {
+  .widget-overlapping-list__item,
+  .widget-overlapping-list__link,
+  .widget-overlapping-list__icon,
+  .widget-overlapping-list__item-title,
+  .widget-overlapping-list__item-description {
+    transition: none !important;
+    animation: none !important;
+  }
+  
+  .widget-overlapping-list[data-animations="yes"] .widget-overlapping-list__item {
+    opacity: 1 !important;
+    transform: translateY(0) scale(1) translateZ(0) !important;
+  }
+}
+
+/* ==========================================
+   MODO ESCURO
+   ========================================== */
+.elementor-editor-dark-mode .widget-overlapping-list {
+  --overlapping-text-color: rgba(255, 255, 255, 0.8);
+  --overlapping-bg-color: rgba(255, 255, 255, 0.05);
+}
+
+.elementor-editor-dark-mode .widget-overlapping-list__item {
+  background-color: rgba(255, 255, 255, 0.05);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* ==========================================
+   SUPORTE PARA RTL
+   ========================================== */
+.rtl .icon-position-left .widget-overlapping-list__icon {
+  margin-right: 0;
+  margin-left: var(--overlapping-spacing-md);
+  order: 2;
+}
+
+.rtl .icon-position-left .widget-overlapping-list__text-content {
+  order: 1;
+}
+
+.rtl .icon-position-right .widget-overlapping-list__icon {
+  margin-left: 0;
+  margin-right: var(--overlapping-spacing-md);
+  order: 1;
+}
+
+.rtl .icon-position-right .widget-overlapping-list__text-content {
+  order: 2;
+}
+
+/* ==========================================
+   LIMPEZA E OTIMIZAÇÕES
+   ========================================== */
+
+/* Garantir que o widget não tenha margem inferior extra */
+.elementor-widget-overlapping_list {
+  margin-bottom: 0;
+}
+
+/* Melhorar renderização de ícones SVG */
+.widget-overlapping-list__icon svg {
+  vertical-align: middle;
+  fill: currentColor;
+}
+
+/* Reset de estilos que podem conflitar */
+.widget-overlapping-list * {
+  box-sizing: border-box;
+}
+
+.widget-overlapping-list a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Suporte para temas que afetam ícones */
+.widget-overlapping-list i::before {
+  color: inherit;
+}
+
+/* Garantir que flex funcione corretamente */
+.widget-overlapping-list__text-content {
+  flex: 1 1 auto;
+  max-width: 100%;
+}
+
+/* Estados de carregamento */
+.widget-overlapping-list.loading {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* Classes auxiliares */
+.widget-overlapping-list .sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ==========================================
+   PRINT STYLES
+   ========================================== */
+@media print {
+  .widget-overlapping-list {
+    color: #000 !important;
+    background: transparent !important;
+  }
+  
+  .widget-overlapping-list__item {
+    break-inside: avoid;
+    margin-bottom: 20px !important;
+    position: static !important;
+    box-shadow: none !important;
+    border: 1px solid #ccc !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+
+/* ==========================================
+   FOCUS
+   ========================================== */
+   
+/* Remover outline padrão do link */
+.widget-overlapping-list__link {
+  outline: none !important;
+}
+
+/* Foco aplicado ao card inteiro quando tem link */
+.widget-overlapping-list__item[data-has-link="true"]:focus-within {
+  outline: 2px solid var(--e-global-color-accent, #61ce70);
+  outline-offset: 2px;
+  border-radius: inherit;
+  transition: outline 0.2s ease;
+}
+
+/* Foco alternativo para navegadores que não suportam :focus-within */
+.widget-overlapping-list__item[data-has-link="true"]:focus {
+  outline: 2px solid var(--e-global-color-accent, #61ce70);
+  outline-offset: 2px;
+  border-radius: inherit;
+  transition: outline 0.2s ease;
+}
+
+/* Garantir que o card seja focável quando tem link */
+.widget-overlapping-list__item[data-has-link="true"] {
+  cursor: pointer;
+}
+
+/* Remover foco dos elementos internos quando card tem link */
+.widget-overlapping-list__item[data-has-link="true"] .widget-overlapping-list__link:focus,
+.widget-overlapping-list__item[data-has-link="true"] .widget-overlapping-list__icon:focus,
+.widget-overlapping-list__item[data-has-link="true"] .widget-overlapping-list__item-title:focus,
+.widget-overlapping-list__item[data-has-link="true"] .widget-overlapping-list__item-description:focus {
+  outline: none !important;
+}
+
+/* ==========================================
+   FIM DO ARQUIVO CSS
+   ========================================== */
+
+/* 
+ * Versão: 2.3 - FOCO DO CARD CORRIGIDO
+ * 
+ * Principais correções:
+ * ✅ Foco agora é aplicado ao card inteiro, não aos elementos internos
+ * ✅ Usado :focus-within para foco acessível
+ * ✅ Cards com link têm tabindex para navegação por teclado
+ * ✅ Removido outline dos elementos internos quando card tem link
+ * ✅ Mantida compatibilidade com navegadores
+ * ✅ Acessibilidade preservada
+ */

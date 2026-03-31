@@ -1,0 +1,471 @@
+/**
+ * Widget Breadcrumbs - CSS específico
+ * /widgets/assets/css/widget-breadcrumbs.css
+ */
+
+/* ==========================================
+   VARIÁVEIS CSS PERSONALIZÁVEIS
+   ========================================== */
+:root {
+  --breadcrumbs-font-size: 14px;
+  --breadcrumbs-line-height: 1.5;
+  --breadcrumbs-gap: 8px;
+  --breadcrumbs-wrap-gap: 4px;
+  --breadcrumbs-color: #666;
+  --breadcrumbs-link-color: #0073aa;
+  --breadcrumbs-link-hover-color: #005a87;
+  --breadcrumbs-current-color: #333;
+  --breadcrumbs-separator-color: #999;
+  --breadcrumbs-transition: all 0.2s ease;
+}
+
+/* ==========================================
+   CONTAINER PRINCIPAL
+   ========================================== */
+.widget-breadcrumbs {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  align-items: center !important;
+  font-size: var(--breadcrumbs-font-size);
+  line-height: var(--breadcrumbs-line-height);
+  color: var(--breadcrumbs-color);
+  width: 100%;
+  gap: var(--breadcrumbs-gap);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* ==========================================
+   ITENS DO BREADCRUMB
+   ========================================== */
+.widget-breadcrumbs-item {
+  display: inline-flex !important;
+  align-items: center !important;
+  margin: 0;
+  padding: 0;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  line-height: inherit;
+}
+
+/* ==========================================
+   LINKS
+   ========================================== */
+.widget-breadcrumbs-link {
+  color: var(--breadcrumbs-link-color);
+  text-decoration: none;
+  transition: var(--breadcrumbs-transition);
+  display: inline-flex;
+  align-items: center;
+  line-height: inherit;
+}
+
+.widget-breadcrumbs-link:hover {
+  color: var(--breadcrumbs-link-hover-color);
+  text-decoration:none;
+}
+/*
+.widget-breadcrumbs-link:focus {
+  outline: 2px solid var(--breadcrumbs-link-hover-color);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+*/
+/* ==========================================
+   TEXTO ATUAL (ÚLTIMO ITEM)
+   ========================================== */
+.widget-breadcrumbs-current {
+  color: var(--breadcrumbs-current-color);
+  font-weight: inherit;
+  line-height: inherit;
+}
+
+/* ==========================================
+   ÍCONES - CORRIGIDO
+   ========================================== */
+.widget-breadcrumbs-home-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 4px; /* CORRIGIDO: Alterado de 4px para exatamente 4px */
+  color: var(--breadcrumbs-link-color);
+  transition: var(--breadcrumbs-transition);
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  /* ADICIONADO: Garantir alinhamento vertical perfeito */
+  vertical-align: middle;
+  line-height: 1;
+}
+
+.widget-breadcrumbs-home-icon i,
+.widget-breadcrumbs-home-icon svg {
+  width: 100%;
+  height: 100%;
+  fill: currentColor;
+  color: inherit;
+  /* ADICIONADO: Melhor alinhamento de ícones */
+  vertical-align: middle;
+  display: block;
+}
+
+/* Hover no ícone home quando dentro de link */
+.widget-breadcrumbs-link:hover .widget-breadcrumbs-home-icon {
+  color: var(--breadcrumbs-link-hover-color);
+}
+
+/* ==========================================
+   SEPARADORES - CORRIGIDO
+   ========================================== */
+.widget-breadcrumbs-separator {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  color: var(--breadcrumbs-separator-color);
+  font-size: 12px;
+  margin: 0;
+  padding: 0;
+  flex-shrink: 0;
+  opacity: 0.7;
+  line-height: 1 !important;
+  /* ADICIONADO: Garantir alinhamento vertical perfeito */
+  vertical-align: middle !important;
+  height: var(--breadcrumbs-font-size); /* Mesma altura que o texto */
+  min-height: var(--breadcrumbs-font-size); /* Altura mínima */
+}
+
+.widget-breadcrumbs-separator i,
+.widget-breadcrumbs-separator svg {
+  width: 12px;
+  height: 12px;
+  fill: currentColor;
+  color: inherit;
+  /* ADICIONADO: Melhor alinhamento de ícones separadores */
+  vertical-align: middle !important;
+  display: block;
+  margin: 0 auto;
+}
+
+/* ADICIONADO: Correção específica para ícones FontAwesome */
+.widget-breadcrumbs-separator .fa,
+.widget-breadcrumbs-separator [class*="fa-"] {
+  line-height: 1 !important;
+  vertical-align: middle !important;
+  display: inline-block !important;
+}
+
+/* ADICIONADO: Correção para texto do separador */
+.widget-breadcrumbs-separator:not(:has(i)):not(:has(svg)):not(:has([class*="fa-"])) {
+  line-height: 1 !important;
+  vertical-align: middle !important;
+  display: inline-flex !important;
+  align-items: center !important;
+}
+
+/* ==========================================
+   COMPORTAMENTO RESPONSIVO
+   ========================================== */
+
+/* Desktop e Tablet - Layout horizontal */
+@media (min-width: 768px) {
+  .widget-breadcrumbs {
+    flex-wrap: nowrap !important;
+    justify-content: flex-start !important;
+  }
+  
+  .widget-breadcrumbs-item {
+    white-space: nowrap !important;
+  }
+  
+  .widget-breadcrumbs-item:last-child {
+    white-space: normal !important;
+    word-break: break-word !important;
+    overflow-wrap: break-word !important;
+  }
+}
+
+/* Mobile - Permite quebra de linha */
+@media (max-width: 767px) {
+  .widget-breadcrumbs {
+    flex-wrap: wrap;
+    gap: var(--breadcrumbs-wrap-gap);
+    line-height: 1.4;
+  }
+  
+  .widget-breadcrumbs-item {
+    white-space: normal;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    max-width: 100%;
+  }
+  
+  /* Ajusta o espaçamento em mobile */
+  .widget-breadcrumbs-separator {
+    margin: 0 2px;
+  }
+  
+  /* Se um item for muito longo, força quebra */
+  .widget-breadcrumbs-current {
+    max-width: 100%;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+  }
+  
+  /* Reduz tamanho de ícones em mobile */
+  .widget-breadcrumbs-home-icon {
+    width: 12px;
+    height: 12px;
+  }
+  
+  .widget-breadcrumbs-separator {
+    font-size: 10px;
+  }
+  
+  .widget-breadcrumbs-separator i,
+  .widget-breadcrumbs-separator svg {
+    width: 10px;
+    height: 10px;
+  }
+}
+
+/* Mobile pequeno - Ajustes adicionais */
+@media (max-width: 480px) {
+  .widget-breadcrumbs {
+    font-size: 13px;
+    gap: 6px;
+  }
+  
+  .widget-breadcrumbs-wrap-gap {
+    --breadcrumbs-wrap-gap: 3px;
+  }
+  
+  /* Em telas muito pequenas, trunca URLs muito longas */
+  .widget-breadcrumbs-link {
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  
+  /* Mas permite que o item atual seja expandido */
+  .widget-breadcrumbs-current {
+    white-space: normal;
+    max-width: 100%;
+  }
+}
+
+/* ==========================================
+   ACESSIBILIDADE
+   ========================================== */
+
+/* Melhora o contraste em modo de alto contraste */
+@media (prefers-contrast: high) {
+  .widget-breadcrumbs-link {
+    text-decoration: underline;
+  }
+  
+  .widget-breadcrumbs-separator {
+    opacity: 1;
+  }
+}
+
+/* Respeita preferência de movimento reduzido */
+@media (prefers-reduced-motion: reduce) {
+  .widget-breadcrumbs-link {
+    transition: none;
+  }
+  
+  .widget-breadcrumbs-home-icon {
+    transition: none;
+  }
+}
+
+/* ==========================================
+   CORREÇÕES ADICIONAIS PARA ALINHAMENTO
+   ========================================== */
+
+/* Garante que todos os elementos flex tenham o mesmo baseline */
+.widget-breadcrumbs * {
+  box-sizing: border-box;
+}
+
+/* Força alinhamento consistente em todos os navegadores */
+.widget-breadcrumbs-item,
+.widget-breadcrumbs-link,
+.widget-breadcrumbs-separator,
+.widget-breadcrumbs-home-icon {
+  align-items: center !important;
+  display: inline-flex !important;
+}
+
+/* Correção específica para Elementor */
+.elementor-widget-breadcrumbs .widget-breadcrumbs {
+  align-items: center !important;
+}
+
+.elementor-widget-breadcrumbs .widget-breadcrumbs-separator {
+  align-self: center !important;
+}
+
+/* ==========================================
+   LAYOUT AVANÇADO PARA QUEBRAS INTELIGENTES
+   ========================================== */
+
+/* Estratégia para quebras inteligentes */
+.widget-breadcrumbs-smart-break {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+}
+
+/* Prioriza manter inicio + primeira parte juntos */
+.widget-breadcrumbs-smart-break .widget-breadcrumbs-item:first-child,
+.widget-breadcrumbs-smart-break .widget-breadcrumbs-item:nth-child(2) {
+  flex-shrink: 0;
+}
+
+/* Permite que itens do meio se contraiam primeiro */
+.widget-breadcrumbs-smart-break .widget-breadcrumbs-item:not(:first-child):not(:last-child) {
+  flex-shrink: 1;
+  min-width: 0;
+}
+
+/* Mantém o item atual sempre visível */
+.widget-breadcrumbs-smart-break .widget-breadcrumbs-item:last-child {
+  flex-shrink: 0;
+  min-width: 0;
+  max-width: 100%;
+}
+
+/* ==========================================
+   SUPORTE A TEMAS ESCUROS
+   ========================================== */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --breadcrumbs-color: #b3b3b3;
+    --breadcrumbs-link-color: #4a9eff;
+    --breadcrumbs-link-hover-color: #66b3ff;
+    --breadcrumbs-current-color: #e0e0e0;
+    --breadcrumbs-separator-color: #888;
+  }
+}
+
+/* Suporte específico para temas WordPress com modo escuro */
+.elementor-editor-dark-mode .widget-breadcrumbs,
+body.dark-mode .widget-breadcrumbs,
+.dark-theme .widget-breadcrumbs {
+  --breadcrumbs-color: #b3b3b3;
+  --breadcrumbs-link-color: #4a9eff;
+  --breadcrumbs-link-hover-color: #66b3ff;
+  --breadcrumbs-current-color: #e0e0e0;
+  --breadcrumbs-separator-color: #888;
+}
+
+/* ==========================================
+   ESTADOS DE CARREGAMENTO E ERRO
+   ========================================== */
+
+/* Estado de carregamento */
+.widget-breadcrumbs.loading {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.widget-breadcrumbs.loading::after {
+  content: '';
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border: 2px solid transparent;
+  border-top: 2px solid var(--breadcrumbs-color);
+  border-radius: 50%;
+  animation: breadcrumb-spin 1s linear infinite;
+  margin-left: 8px;
+}
+
+@keyframes breadcrumb-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Estado de erro */
+.widget-breadcrumbs.error {
+  color: #d63384;
+}
+
+.widget-breadcrumbs.error .widget-breadcrumbs-link {
+  color: #d63384;
+  text-decoration: line-through;
+}
+
+/* ==========================================
+   UTILITÁRIOS PARA PERSONALIZAÇÃO
+   ========================================== */
+
+/* Classes auxiliares para diferentes layouts */
+.widget-breadcrumbs--compact {
+  font-size: 12px;
+  gap: 4px;
+}
+
+.widget-breadcrumbs--large {
+  font-size: 16px;
+  gap: 12px;
+}
+
+.widget-breadcrumbs--no-wrap {
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.widget-breadcrumbs--no-wrap::-webkit-scrollbar {
+  display: none;
+}
+
+/* Classes para alinhamento personalizado */
+.widget-breadcrumbs--center {
+  justify-content: center;
+}
+
+.widget-breadcrumbs--right {
+  justify-content: flex-end;
+}
+
+.widget-breadcrumbs--space-between {
+  justify-content: space-between;
+}
+
+/* ==========================================
+   INTEGRAÇÃO COM ELEMENTOR
+   ========================================== */
+
+/* Garante que funcione bem dentro de widgets Elementor */
+.elementor-widget-breadcrumbs .widget-breadcrumbs {
+  width: 100%;
+}
+
+/* Ajustes para o editor do Elementor */
+.elementor-editor .widget-breadcrumbs {
+  min-height: 20px;
+}
+
+.elementor-editor .widget-breadcrumbs-link {
+  pointer-events: none;
+}
+
+/* Preview no editor */
+.elementor-editor .widget-breadcrumbs::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border: 1px dashed rgba(0, 123, 255, 0.3);
+  pointer-events: none;
+  border-radius: 2px;
+}

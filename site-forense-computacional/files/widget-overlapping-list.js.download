@@ -1,0 +1,641 @@
+/**
+ * Widget Lista Sobreposta - JavaScript Otimizado
+ * Versão 2.3 - Foco do card corrigido + Event listeners
+ */
+
+(function($) {
+    'use strict';
+
+    // Classe principal do widget
+    class OverlappingListWidget {
+        constructor(element) {
+            this.widget = $(element);
+            this.items = this.widget.find('.widget-overlapping-list__item');
+            this.container = this.widget.find('.widget-overlapping-list__container');
+            this.animationsEnabled = this.widget.data('animations') === 'yes';
+            this.uniformHeight = this.widget.data('uniform-height') === 'yes';
+            
+            // Configurações responsivas
+            this.stickyDistances = {
+                desktop: parseInt(this.widget.data('sticky-distance-desktop')) || 80,
+                tablet: parseInt(this.widget.data('sticky-distance-tablet')) || 60,
+                mobile: parseInt(this.widget.data('sticky-distance-mobile')) || 40
+            };
+
+            this.currentBreakpoint = 'desktop';
+            this.isInitialized = false;
+            this.isInFlexContainer = false;
+            this.uniformCardHeight = 0;
+
+            this.init();
+        }
+
+        init() {
+            if (this.items.length === 0) return;
+
+            // Detectar se está dentro de container flexbox
+            this.detectFlexContainer();
+
+            // Configurar altura uniforme se habilitada
+            if (this.uniformHeight) {
+                this.setupUniformHeight();
+            }
+
+            // Configurar sticky positioning
+            this.setupStickyPositioning();
+
+            // Configurar animações se habilitadas
+            if (this.animationsEnabled) {
+                this.setupAnimations();
+            }
+
+            // NOVO: Configurar eventos de teclado para cards clicáveis
+            this.setupClickableCardEvents();
+
+            // Event listeners responsivos
+            this.setupResponsive();
+
+            // Configurar observer para mudanças no DOM (Elementor)
+            this.setupMutationObserver();
+
+            // Marcar como inicializado
+            this.isInitialized = true;
+
+            // Debug log
+            console.log('Overlapping List Widget inicializado:', {
+                items: this.items.length,
+                animations: this.animationsEnabled,
+                uniformHeight: this.uniformHeight,
+                distances: this.stickyDistances,
+                flexContainer: this.isInFlexContainer,
+                cardHeight: this.uniformCardHeight
+            });
+        }
+
+        // NOVO: Configurar eventos para cards clicáveis
+        setupClickableCardEvents() {
+            // Para cada card que tem link
+            this.items.each(function() {
+                const $item = $(this);
+                const hasLink = $item.data('has-link') === 'true';
+                
+                if (hasLink) {
+                    const $link = $item.find('.widget-overlapping-list__link');
+                    
+                    // Evento de clique no card inteiro
+                    $item.on('click.overlappingList', function(e) {
+                        // Prevenir clique duplo se já clicaram no link interno
+                        if (e.target !== this) return;
+                        
+                        if ($link.length) {
+                            // Simular clique no link
+                            $link[0].click();
+                        }
+                    });
+                    
+                    // Evento de teclado (Enter e Space)
+                    $item.on('keydown.overlappingList', function(e) {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            
+                            if ($link.length) {
+                                $link[0].click();
+                            }
+                        }
+                    });
+                    
+                    // Melhorar a acessibilidade
+                    $item.attr('role', 'button');
+                    
+                    // Adicionar aria-label se não existir
+                    if (!$item.attr('aria-label')) {
+                        const title = $item.find('.widget-overlapping-list__item-title').text();
+                        if (title) {
+                            $item.attr('aria-label', 'Acessar: ' + title);
+                        }
+                    }
+                }
+            });
+        }
+
+        detectFlexContainer() {
+            // Verificar se o widget está dentro de um container flexbox do Elementor
+            const elementorContainer = this.widget.closest('.e-con, .elementor-container, .e-container');
+            
+            if (elementorContainer.length) {
+                const containerStyle = window.getComputedStyle(elementorContainer[0]);
+                const display = containerStyle.display;
+                
+                this.isInFlexContainer = display === 'flex' || display === 'inline-flex';
+                
+                if (this.isInFlexContainer) {
+                    console.log('Detected flex container:', {
+                        display: display,
+                        flexDirection: containerStyle.flexDirection
+                    });
+                    
+                    // Calcular altura necessária baseada no número de cards
+                    const itemsCount = this.items.length;
+                    const baseDistance = this.getCurrentStickyDistance();
+                    const lastItemDistance = baseDistance + ((itemsCount - 1) * 30);
+                    
+                    // Usar altura uniforme se habilitada, senão calcular dinamicamente
+                    const cardHeight = this.uniformHeight ? this.uniformCardHeight : 200;
+                    const necessaryHeight = lastItemDistance + cardHeight + 100;
+                    
+                    // Forçar configurações no container pai
+                    elementorContainer.css({
+                        'overflow': 'visible',
+                        'position': 'relative',
+                        'min-height': 'auto'
+                    });
+                    
+                    // Configurar o widget para funcionar em flexbox
+                    this.widget.css({
+                        'min-height': necessaryHeight + 'px',
+                        'display': 'flex',
+                        'flex-direction': 'column'
+                    });
+                    
+                    // Definir variável CSS para altura calculada
+                    this.widget[0].style.setProperty('--overlapping-items-count', itemsCount);
+                    
+                    this.container.css({
+                        'display': 'block',
+                        'overflow': 'visible',
+                        'min-height': necessaryHeight + 'px'
+                    });
+                }
+            }
+        }
+
+        setupUniformHeight() {
+            if (!this.uniformHeight) return;
+
+            // Aguardar o DOM estar totalmente renderizado
+            setTimeout(() => {
+                let maxHeight = 0;
+                
+                // Resetar height temporariamente para medir altura natural
+                this.items.css('min-height', 'auto');
+                
+                // Encontrar a maior altura
+                this.items.each(function() {
+                    const itemHeight = $(this).outerHeight();
+                    maxHeight = Math.max(maxHeight, itemHeight);
+                });
+                
+                // Definir altura uniforme
+                if (maxHeight > 0) {
+                    this.uniformCardHeight = maxHeight;
+                    
+                    // Aplicar altura uniforme via CSS custom property
+                    this.widget[0].style.setProperty('--uniform-card-height', maxHeight + 'px');
+                    
+                    console.log('Altura uniforme aplicada:', maxHeight + 'px');
+                }
+            }, 100);
+        }
+
+        setupStickyPositioning() {
+            const currentDistance = this.getCurrentStickyDistance();
+            
+            this.items.each((index, item) => {
+                const $item = $(item);
+                const itemDistance = currentDistance + (index * 30); // 30px entre cada card
+                
+                // Configurações específicas para flexbox
+                if (this.isInFlexContainer) {
+                    $item.css({
+                        'position': 'sticky',
+                        'top': itemDistance + 'px',
+                        'z-index': 10 + index,
+                        'flex-shrink': '0',
+                        'align-self': 'stretch',
+                        'width': '100%'
+                    });
+                } else {
+                    // Aplicar position sticky padrão
+                    $item.css({
+                        'position': 'sticky',
+                        'top': itemDistance + 'px',
+                        'z-index': 10 + index
+                    });
+                }
+
+                // Atualizar data-attribute para referência
+                $item.attr('data-current-top', itemDistance);
+            });
+            
+            // Force reflow to ensure sticky positioning takes effect
+            this.container[0].offsetHeight;
+            
+            // Ajustar altura do widget baseada no conteúdo real
+            this.adjustWidgetHeight();
+        }
+
+        adjustWidgetHeight() {
+            // Calcular altura necessária baseada na posição real dos cards
+            if (this.items.length === 0) return;
+            
+            const lastItem = this.items.last();
+            const lastItemTop = parseInt(lastItem.css('top')) || 0;
+            const lastItemHeight = this.uniformHeight ? this.uniformCardHeight : (lastItem.outerHeight() || 200);
+            const padding = 100; // Margem extra no final
+            
+            const necessaryHeight = lastItemTop + lastItemHeight + padding;
+            
+            // Ajustar altura do widget e container
+            if (this.isInFlexContainer) {
+                this.widget.css('min-height', necessaryHeight + 'px');
+                this.container.css('min-height', necessaryHeight + 'px');
+                
+                console.log('Widget height adjusted to:', necessaryHeight + 'px');
+            }
+        }
+
+        setupAnimations() {
+            // As animações agora são controladas principalmente pelo CSS
+            // que já define os estados iniciais corretos para cada card
+            
+            // Configurar Intersection Observer para animações de entrada
+            this.setupIntersectionObserver();
+        }
+
+        setupIntersectionObserver() {
+            if (!window.IntersectionObserver) {
+                // Fallback para navegadores sem suporte
+                this.items.addClass('animate-in');
+                return;
+            }
+
+            const observerOptions = {
+                root: null,
+                rootMargin: '-5% 0px -5% 0px', // Trigger quando 5% do elemento estiver visível
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const $item = $(entry.target);
+                        
+                        // Aplicar animação de entrada com delay baseado no índice
+                        const index = parseInt($item.data('index')) || 0;
+                        
+                        setTimeout(() => {
+                            $item.addClass('animate-in');
+                        }, index * 100); // Delay escalonado de 100ms por card
+
+                        // Parar de observar este elemento
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            // Observar todos os items
+            this.items.each(function() {
+                observer.observe(this);
+            });
+        }
+
+        setupMutationObserver() {
+            // Observar mudanças no DOM (útil quando Elementor recarrega preview)
+            if (!window.MutationObserver) return;
+            
+            const observer = new MutationObserver((mutations) => {
+                mutations.forEach((mutation) => {
+                    if (mutation.type === 'attributes' && 
+                        (mutation.attributeName === 'style' || mutation.attributeName === 'class')) {
+                        // Redetectar container flexbox se houver mudanças
+                        setTimeout(() => {
+                            this.detectFlexContainer();
+                            if (this.uniformHeight) {
+                                this.setupUniformHeight();
+                            }
+                            this.setupStickyPositioning();
+                        }, 100);
+                    }
+                });
+            });
+            
+            // Observar o container pai
+            const elementorContainer = this.widget.closest('.e-con, .elementor-container, .e-container');
+            if (elementorContainer.length) {
+                observer.observe(elementorContainer[0], {
+                    attributes: true,
+                    attributeFilter: ['style', 'class', 'data-settings']
+                });
+            }
+        }
+
+        setupResponsive() {
+            let resizeTimeout;
+            
+            $(window).on('resize.overlappingList', () => {
+                clearTimeout(resizeTimeout);
+                resizeTimeout = setTimeout(() => {
+                    this.handleResize();
+                }, 250); // Throttle resize
+            });
+
+            // Verificar breakpoint inicial
+            this.updateBreakpoint();
+        }
+
+        handleResize() {
+            const oldBreakpoint = this.currentBreakpoint;
+            this.updateBreakpoint();
+
+            // Se mudou o breakpoint, reconfigurar sticky
+            if (oldBreakpoint !== this.currentBreakpoint) {
+                this.setupStickyPositioning();
+            }
+            
+            // Recalcular altura uniforme se habilitada
+            if (this.uniformHeight) {
+                this.setupUniformHeight();
+            }
+        }
+
+        updateBreakpoint() {
+            const width = $(window).width();
+            
+            if (width <= 767) {
+                this.currentBreakpoint = 'mobile';
+            } else if (width <= 1024) {
+                this.currentBreakpoint = 'tablet';
+            } else {
+                this.currentBreakpoint = 'desktop';
+            }
+        }
+
+        getCurrentStickyDistance() {
+            return this.stickyDistances[this.currentBreakpoint] || this.stickyDistances.desktop;
+        }
+
+        // Método público para reiniializar o widget
+        refresh() {
+            if (!this.isInitialized) return;
+            
+            this.detectFlexContainer();
+            
+            // Reconfigurar altura uniforme
+            if (this.uniformHeight) {
+                this.setupUniformHeight();
+            }
+            
+            this.setupStickyPositioning();
+            
+            // Reconfigurar eventos de cards clicáveis
+            this.setupClickableCardEvents();
+            
+            // Ajustar altura após reposicionar
+            setTimeout(() => {
+                this.adjustWidgetHeight();
+            }, 200);
+            
+            if (this.animationsEnabled) {
+                // Resetar animações se necessário
+                this.items.removeClass('animate-in');
+                this.setupAnimations();
+            }
+        }
+
+        // Método para forçar recálculo de altura uniforme
+        recalculateUniformHeight() {
+            if (this.uniformHeight) {
+                this.setupUniformHeight();
+                setTimeout(() => {
+                    this.setupStickyPositioning();
+                }, 150);
+            }
+        }
+
+        // Método para testar se sticky está funcionando
+        testStickySupport() {
+            const testElement = $('<div>').css({
+                'position': 'sticky',
+                'top': '0',
+                'visibility': 'hidden',
+                'pointer-events': 'none'
+            }).appendTo('body');
+            
+            const isSupported = testElement.css('position') === 'sticky';
+            testElement.remove();
+            
+            return isSupported;
+        }
+
+        // Fallback caso sticky não funcione
+        enableFallbackMode() {
+            console.warn('Sticky positioning não está funcionando, ativando modo fallback');
+            
+            this.widget.attr('data-fallback-mode', 'true');
+            
+            // Usar position fixed como alternativa
+            this.items.each((index, item) => {
+                const $item = $(item);
+                const itemDistance = this.getCurrentStickyDistance() + (index * 30);
+                
+                $item.css({
+                    'position': 'fixed',
+                    'top': itemDistance + 'px',
+                    'left': '50%',
+                    'transform': 'translateX(-50%)',
+                    'z-index': 10 + index,
+                    'width': '90%',
+                    'max-width': '600px'
+                });
+            });
+        }
+
+        // Debug helper - ativar modo debug
+        enableDebugMode() {
+            this.widget.attr('data-debug', 'true');
+            
+            console.log('Debug mode ativado. Informações do widget:', {
+                widget: this.widget,
+                items: this.items,
+                container: this.container,
+                isInFlexContainer: this.isInFlexContainer,
+                uniformHeight: this.uniformHeight,
+                uniformCardHeight: this.uniformCardHeight,
+                stickyDistances: this.stickyDistances,
+                elementorContainer: this.widget.closest('.e-con, .elementor-container, .e-container')
+            });
+        }
+
+        // Método para limpar event listeners
+        destroy() {
+            // Remover event listeners do window
+            $(window).off('resize.overlappingList');
+            
+            // Remover event listeners dos cards
+            this.items.off('.overlappingList');
+            
+            // Limpar data
+            this.widget.removeData('overlappingListWidget');
+        }
+    }
+
+    // Função de inicialização principal
+    function initOverlappingLists() {
+        $('.widget-overlapping-list').each(function() {
+            const $widget = $(this);
+            
+            // Evitar dupla inicialização
+            if ($widget.data('overlappingListWidget')) {
+                return;
+            }
+
+            // Criar instância do widget
+            const widgetInstance = new OverlappingListWidget(this);
+            $widget.data('overlappingListWidget', widgetInstance);
+        });
+    }
+
+    // Inicialização quando DOM estiver pronto
+    $(document).ready(function() {
+        initOverlappingLists();
+    });
+
+    // Para compatibilidade com Elementor Preview
+    $(window).on('elementor/frontend/init', function() {
+        // Aguardar um pouco para garantir que os elementos foram renderizados
+        setTimeout(initOverlappingLists, 100);
+    });
+
+    // Reinicializar quando Elementor recarregar o preview
+    if (typeof elementorFrontend !== 'undefined') {
+        elementorFrontend.hooks.addAction('frontend/element_ready/overlapping_list.default', function($scope) {
+            const $widget = $scope.find('.widget-overlapping-list');
+            if ($widget.length) {
+                const widgetInstance = new OverlappingListWidget($widget[0]);
+                $widget.data('overlappingListWidget', widgetInstance);
+            }
+        });
+    }
+
+    // Expor funcionalidade globalmente para debugging
+    window.OverlappingListWidget = OverlappingListWidget;
+    window.initOverlappingLists = initOverlappingLists;
+
+    // ===================================================
+    // FUNÇÕES UTILITÁRIAS GLOBAIS
+    // ===================================================
+
+    // Função para refresh manual
+    window.refreshOverlappingLists = function() {
+        $('.widget-overlapping-list').each(function() {
+            const instance = $(this).data('overlappingListWidget');
+            if (instance && typeof instance.refresh === 'function') {
+                instance.refresh();
+            }
+        });
+    };
+
+    // Função para ajustar altura manualmente
+    window.adjustOverlappingListsHeight = function() {
+        $('.widget-overlapping-list').each(function() {
+            const instance = $(this).data('overlappingListWidget');
+            if (instance && typeof instance.adjustWidgetHeight === 'function') {
+                instance.adjustWidgetHeight();
+            }
+        });
+    };
+
+    // Função para recalcular altura uniforme
+    window.recalculateUniformHeight = function() {
+        $('.widget-overlapping-list').each(function() {
+            const instance = $(this).data('overlappingListWidget');
+            if (instance && typeof instance.recalculateUniformHeight === 'function') {
+                instance.recalculateUniformHeight();
+            }
+        });
+    };
+
+    // Função para definir altura mínima customizada
+    window.setOverlappingListsMinHeight = function(height) {
+        $('.widget-overlapping-list').each(function() {
+            const $widget = $(this);
+            const instance = $widget.data('overlappingListWidget');
+            
+            if (instance) {
+                $widget.css('min-height', height + 'px');
+                $widget.find('.widget-overlapping-list__container').css('min-height', height + 'px');
+                console.log('Min height set to:', height + 'px');
+            }
+        });
+    };
+
+    // Função para debug de containers flexbox
+    window.debugOverlappingLists = function() {
+        $('.widget-overlapping-list').each(function() {
+            const instance = $(this).data('overlappingListWidget');
+            if (instance && typeof instance.enableDebugMode === 'function') {
+                instance.enableDebugMode();
+            }
+        });
+    };
+
+    // Função para forçar modo fallback
+    window.forceOverlappingListsFallback = function() {
+        $('.widget-overlapping-list').each(function() {
+            const instance = $(this).data('overlappingListWidget');
+            if (instance && typeof instance.enableFallbackMode === 'function') {
+                instance.enableFallbackMode();
+            }
+        });
+    };
+
+    // Função para testar sticky support
+    window.testStickySupport = function() {
+        const testDiv = document.createElement('div');
+        testDiv.style.position = 'sticky';
+        testDiv.style.top = '0';
+        testDiv.style.visibility = 'hidden';
+        document.body.appendChild(testDiv);
+        
+        const isSupported = getComputedStyle(testDiv).position === 'sticky';
+        document.body.removeChild(testDiv);
+        
+        console.log('Sticky positioning support:', isSupported);
+        return isSupported;
+    };
+
+    // Função para diagnosticar problemas
+    window.diagnoseOverlappingLists = function() {
+        console.log('=== DIAGNÓSTICO OVERLAPPING LISTS ===');
+        
+        $('.widget-overlapping-list').each(function(index) {
+            const $widget = $(this);
+            const instance = $widget.data('overlappingListWidget');
+            const $container = $widget.find('.widget-overlapping-list__container');
+            const $items = $widget.find('.widget-overlapping-list__item');
+            
+            console.log(`Widget ${index + 1}:`, {
+                element: this,
+                instance: instance,
+                isInFlexContainer: instance?.isInFlexContainer,
+                uniformHeight: instance?.uniformHeight,
+                uniformCardHeight: instance?.uniformCardHeight,
+                stickySupport: window.testStickySupport(),
+                widgetHeight: $widget.outerHeight(),
+                containerHeight: $container.outerHeight(),
+                itemsCount: $items.length,
+                lastItemPosition: $items.length ? $items.last().css('top') : 'N/A',
+                elementorContainer: $widget.closest('.e-con, .elementor-container, .e-container'),
+                clickableCards: $items.filter('[data-has-link="true"]').length
+            });
+        });
+        
+        console.log('=== FIM DO DIAGNÓSTICO ===');
+        console.log('Comandos disponíveis:');
+        console.log('- refreshOverlappingLists() // Atualizar widgets');
+        console.log('- adjustOverlappingListsHeight() // Ajustar altura');
+        console.log('- recalculateUniformHeight() // Recalcular altura uniforme');
+        console.log('- setOverlappingListsMinHeight(500) // Altura mínima');
+    };
+
+})(jQuery);

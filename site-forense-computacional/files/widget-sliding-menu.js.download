@@ -1,0 +1,363 @@
+/**
+ * Slide Menu Widget JavaScript
+ * Implementa a funcionalidade de navegação deslizante para o widget Slide Menu
+ * Compatível com Elementor e sistema responsivo
+ */
+(function($) {
+    'use strict';
+
+    /**
+     * Inicializa o menu deslizante
+     * @param {string} menuId - ID do contêiner do menu
+     */
+    function initSlideMenu(menuId) {
+        var slideMenuContainer = document.getElementById(menuId);
+        
+        if (!slideMenuContainer) {
+            return;
+        }
+
+        // Função para remover todas as classes de animação
+        function resetAnimationClasses(element) {
+            if (element) {
+                element.classList.remove('slide-out-left', 'slide-out-right', 'slide-in-right', 'slide-in-left');
+            }
+        }
+        
+        // Função para limpar estados de todos os painéis
+        function resetAllPanels() {
+            var allPanels = slideMenuContainer.querySelectorAll('.widget-slide-menu__panel');
+            allPanels.forEach(function(panel) {
+                resetAnimationClasses(panel);
+                if (!panel.classList.contains('widget-slide-menu__panel--main')) {
+                    panel.classList.remove('widget-slide-menu__panel--active');
+                }
+            });
+        }
+
+        // Função para definir altura dinâmica do wrapper baseada no painel ativo
+        function updateWrapperHeight() {
+            var activePanel = slideMenuContainer.querySelector('.widget-slide-menu__panel--main:not(.slide-out-left), .widget-slide-menu__panel--active:not(.slide-out-right)');
+            var wrapper = slideMenuContainer.querySelector('.widget-slide-menu__wrapper');
+            
+            if (activePanel && wrapper) {
+                // Reset altura para calcular corretamente
+                wrapper.style.minHeight = 'auto';
+                
+                // Aguarda um frame para o DOM se ajustar
+                requestAnimationFrame(function() {
+                    var panelHeight = activePanel.scrollHeight;
+                    wrapper.style.minHeight = Math.max(panelHeight, 250) + 'px';
+                });
+            }
+        }
+
+        // Função para sincronizar e forçar botões quadrados
+        function makeButtonsSquare() {
+            var buttons = slideMenuContainer.querySelectorAll('.widget-slide-menu__nav-button');
+            buttons.forEach(function(button) {
+                var icon = button.querySelector('i, svg');
+                if (!icon) return;
+                
+                var computedStyle = window.getComputedStyle(button);
+                var computedIconStyle = window.getComputedStyle(icon);
+                
+                // Pega o padding atual
+                var paddingTop = parseFloat(computedStyle.paddingTop) || 8;
+                var paddingLeft = parseFloat(computedStyle.paddingLeft) || 8;
+                var paddingRight = parseFloat(computedStyle.paddingRight) || 8;
+                var paddingBottom = parseFloat(computedStyle.paddingBottom) || 8;
+                
+                // Usa o maior padding para garantir simetria
+                var maxPadding = Math.max(paddingTop, paddingLeft, paddingRight, paddingBottom);
+                
+                // Pega o tamanho do ícone
+                var iconWidth = parseFloat(computedIconStyle.width) || 16;
+                var iconHeight = parseFloat(computedIconStyle.height) || 16;
+                var maxIconSize = Math.max(iconWidth, iconHeight);
+                
+                // Calcula o tamanho total quadrado
+                var buttonSize = maxIconSize + (2 * maxPadding);
+                
+                // Aplica o tamanho quadrado
+                button.style.setProperty('--button-size', buttonSize + 'px');
+                button.setAttribute('data-square', 'true');
+                button.style.width = buttonSize + 'px';
+                button.style.height = buttonSize + 'px';
+                
+                // Força padding simétrico
+                button.style.padding = maxPadding + 'px';
+                
+                // Debug para desenvolvimento
+                if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+                    console.log('Button resized:', {
+                        iconSize: maxIconSize,
+                        padding: maxPadding,
+                        buttonSize: buttonSize
+                    });
+                }
+            });
+        }
+
+        // Função para scroll suave para o topo após transição
+        function scrollToTop() {
+            var wrapper = slideMenuContainer.querySelector('.widget-slide-menu__wrapper');
+            if (wrapper && wrapper.scrollTop > 0) {
+                wrapper.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            }
+        }
+
+        // Função para gerenciar foco após transição
+        function manageFocus(targetPanel) {
+            setTimeout(function() {
+                var firstFocusable = targetPanel.querySelector('a, button, [tabindex]:not([tabindex="-1"])');
+                if (firstFocusable) {
+                    firstFocusable.focus();
+                }
+            }, 300); // Aguarda a transição completar
+        }
+
+        // Botões para avançar para submenu
+        var forwardButtons = slideMenuContainer.querySelectorAll('.widget-slide-menu__forward');
+        forwardButtons.forEach(function(button) {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation(); // Impede propagação para links
+                
+                var currentPanel = button.closest('.widget-slide-menu__panel');
+                var targetPanel = document.getElementById(button.getAttribute('data-target'));
+                
+                if (currentPanel && targetPanel) {
+                    // Reset classes de animação
+                    resetAnimationClasses(currentPanel);
+                    resetAnimationClasses(targetPanel);
+                    
+                    // Anima a transição
+                    currentPanel.classList.add('slide-out-left');
+                    targetPanel.classList.add('slide-in-right');
+                    targetPanel.classList.add('widget-slide-menu__panel--active');
+                    
+                    // Atualiza altura e gerencia foco
+                    setTimeout(function() {
+                        updateWrapperHeight();
+                        makeButtonsSquare();
+                        manageFocus(targetPanel);
+                        scrollToTop();
+                    }, 100);
+                }
+            });
+
+            // Adiciona suporte para teclado (Enter e Space)
+            button.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    button.click();
+                }
+            });
+        });
+        
+        // Botões para retornar ao nível anterior
+        var backButtons = slideMenuContainer.querySelectorAll('.widget-slide-menu__back');
+        backButtons.forEach(function(button) {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                var currentPanel = button.closest('.widget-slide-menu__panel');
+                var targetId = button.getAttribute('data-target');
+                var targetPanel;
+                
+                if (targetId === 'widget-slide-menu__panel--main') {
+                    targetPanel = slideMenuContainer.querySelector('.widget-slide-menu__panel--main');
+                } else {
+                    targetPanel = document.getElementById(targetId);
+                }
+                
+                if (currentPanel && targetPanel) {
+                    // Reset classes de animação
+                    resetAnimationClasses(currentPanel);
+                    resetAnimationClasses(targetPanel);
+                    
+                    // Anima a transição
+                    currentPanel.classList.remove('widget-slide-menu__panel--active');
+                    currentPanel.classList.add('slide-out-right');
+                    targetPanel.classList.add('slide-in-left');
+                    
+                    // Atualiza altura e gerencia foco
+                    setTimeout(function() {
+                        updateWrapperHeight();
+                        makeButtonsSquare();
+                        manageFocus(targetPanel);
+                        scrollToTop();
+                    }, 100);
+                }
+            });
+
+            // Adiciona suporte para teclado (Enter e Space)
+            button.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    button.click();
+                }
+            });
+        });
+
+        // Suporte para navegação por teclado (ESC para voltar)
+        slideMenuContainer.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                var activeSubmenu = slideMenuContainer.querySelector('.widget-slide-menu__panel--submenu.widget-slide-menu__panel--active');
+                if (activeSubmenu) {
+                    var backButton = activeSubmenu.querySelector('.widget-slide-menu__back');
+                    if (backButton) {
+                        backButton.click();
+                    }
+                }
+            }
+        });
+
+        // Inicializa altura do wrapper e botões quadrados
+        updateWrapperHeight();
+        makeButtonsSquare();
+
+        // Observa mudanças de tamanho para ajustar altura e botões
+        if (window.ResizeObserver) {
+            var resizeObserver = new ResizeObserver(function() {
+                updateWrapperHeight();
+                makeButtonsSquare();
+            });
+            resizeObserver.observe(slideMenuContainer);
+        }
+
+        // Fallback para navegadores sem ResizeObserver
+        window.addEventListener('resize', function() {
+            setTimeout(function() {
+                updateWrapperHeight();
+                makeButtonsSquare();
+            }, 100);
+        });
+    }
+
+    /**
+     * Inicializa todos os menus deslizantes encontrados na página
+     */
+    function initAllSlideMenus() {
+        $('.widget-slide-menu').each(function() {
+            var container = $(this).find('.widget-slide-menu__container');
+            if (container.length && container.attr('id')) {
+                initSlideMenu(container.attr('id'));
+            }
+        });
+    }
+
+    /**
+     * Reinicializa menus após mudanças do Elementor
+     */
+    function reinitSlideMenus() {
+        // Remove event listeners antigos
+        $('.widget-slide-menu').each(function() {
+            var container = $(this).find('.widget-slide-menu__container')[0];
+            if (container) {
+                // Clona e substitui o elemento para remover todos os event listeners
+                var newContainer = container.cloneNode(true);
+                container.parentNode.replaceChild(newContainer, container);
+            }
+        });
+        
+        // Reinicializa
+        setTimeout(initAllSlideMenus, 100);
+    }
+
+    // Inicializa quando o DOM estiver carregado
+    $(document).ready(function() {
+        initAllSlideMenus();
+    });
+
+    // Compatibilidade com Elementor Preview
+    $(window).on('elementor/frontend/init', function() {
+        if (typeof elementorFrontend !== 'undefined') {
+            elementorFrontend.hooks.addAction('frontend/element_ready/slide_menu.default', function($scope) {
+                var container = $scope.find('.widget-slide-menu__container');
+                if (container.length && container.attr('id')) {
+                    // Aguarda um pouco para garantir que o DOM esteja pronto
+                    setTimeout(function() {
+                        initSlideMenu(container.attr('id'));
+                    }, 100);
+                }
+            });
+        }
+    });
+
+    // Reinicializa após mudanças no editor do Elementor
+    if (typeof elementor !== 'undefined') {
+        elementor.hooks.addAction('panel/open_editor/widget/slide_menu', reinitSlideMenus);
+        
+        // Sincroniza propriedades CSS após mudanças de estilo
+        elementor.hooks.addAction('panel/editor/style/updateStyles', function() {
+            setTimeout(function() {
+                $('.widget-slide-menu').each(function() {
+                    var container = $(this).find('.widget-slide-menu__container');
+                    if (container.length && container.attr('id')) {
+                        var slideMenuContainer = document.getElementById(container.attr('id'));
+                        if (slideMenuContainer) {
+                            // Executa a função para deixar botões quadrados
+                            var buttons = slideMenuContainer.querySelectorAll('.widget-slide-menu__nav-button');
+                            buttons.forEach(function(button) {
+                                var icon = button.querySelector('i, svg');
+                                if (!icon) return;
+                                
+                                var computedStyle = window.getComputedStyle(button);
+                                var computedIconStyle = window.getComputedStyle(icon);
+                                
+                                var paddingTop = parseFloat(computedStyle.paddingTop) || 8;
+                                var paddingLeft = parseFloat(computedStyle.paddingLeft) || 8;
+                                var paddingRight = parseFloat(computedStyle.paddingRight) || 8;
+                                var paddingBottom = parseFloat(computedStyle.paddingBottom) || 8;
+                                var maxPadding = Math.max(paddingTop, paddingLeft, paddingRight, paddingBottom);
+                                
+                                var iconWidth = parseFloat(computedIconStyle.width) || 16;
+                                var iconHeight = parseFloat(computedIconStyle.height) || 16;
+                                var maxIconSize = Math.max(iconWidth, iconHeight);
+                                
+                                var buttonSize = maxIconSize + (2 * maxPadding);
+                                
+                                button.style.setProperty('--button-size', buttonSize + 'px');
+                                button.setAttribute('data-square', 'true');
+                                button.style.width = buttonSize + 'px';
+                                button.style.height = buttonSize + 'px';
+                                button.style.padding = maxPadding + 'px';
+                            });
+                        }
+                    }
+                });
+            }, 100);
+        });
+    }
+
+    // Inicialização adicional para casos onde o script carrega após o DOM
+    if (document.readyState === 'complete' || document.readyState === 'interactive') {
+        setTimeout(initAllSlideMenus, 100);
+    }
+
+    // Expõe a API pública
+    window.NexoriaSlideMenu = {
+        init: initSlideMenu,
+        initAll: initAllSlideMenus,
+        reinit: reinitSlideMenus
+    };
+
+    // Debug para desenvolvimento (remover em produção)
+    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+        window.NexoriaSlideMenu.debug = function(menuId) {
+            var container = document.getElementById(menuId);
+            console.log('Slide Menu Debug:', {
+                container: container,
+                panels: container ? container.querySelectorAll('.widget-slide-menu__panel') : null,
+                forwardButtons: container ? container.querySelectorAll('.widget-slide-menu__forward') : null,
+                backButtons: container ? container.querySelectorAll('.widget-slide-menu__back') : null
+            });
+        };
+    }
+
+})(jQuery);

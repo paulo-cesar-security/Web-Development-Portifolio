@@ -1,0 +1,1953 @@
+/** 
+ * Nexoria Theme Widgets - CSS Otimizado
+ * ATUALIZADO: Inclui melhorias do List Icons da Abia (Versão 6.0)
+ * ADICIONADO: CSS completo para Slide Menu Widget
+ * 
+ * Índice:
+ * 1. Variáveis globais
+ * 2. Componentes compartilhados
+ *    2.1. Botões
+ *    2.2. Ícones
+ *    2.3. Títulos e textos
+ *    2.4. Animações
+ * 3. Widget específico: Bloco de Texto
+ *    3.1. Altura Máxima e Rolagem
+ * 4. Widget específico: Lista de Ícones (MELHORADO)
+ * 5. Widget específico: Slide Lista
+ * 6. Widget específico: Botões CTA
+ * 7. Widget específico: Slide Menu (COMPLETO)
+ * 8. Responsividade
+ */
+
+/* ==========================================
+   1. VARIÁVEIS GLOBAIS
+   ========================================== */
+:root {
+  /* Espaçamentos */
+  --widget-spacing-xs: 5px;
+  --widget-spacing-sm: 8px;
+  --widget-spacing-md: 15px;
+  --widget-spacing-lg: 20px;
+  --widget-spacing-xl: 30px;
+  
+  /* Cores padrão (serão substituídas pelas globais do Elementor) */
+  --widget-color-primary: var(--e-global-color-primary);
+  --widget-color-secondary: var(--e-global-color-secondary);
+  --widget-color-accent: var(--e-global-color-accent);
+  --widget-color-text: var(--e-global-color-text);
+  
+  /* Transições */
+  --widget-transition-speed: 0.3s;
+  --widget-transition: all var(--widget-transition-speed) ease;
+  
+  /* CONFIGURAÇÕES DE ROLAGEM (você pode editar estes valores manualmente) */
+  --scrollbar-color: rgba(0, 0, 0, 0.2); /* Cor padrão da barra de rolagem */
+  --scrollbar-width: 5px; /* Largura padrão da barra de rolagem */
+  --scrollbar-padding: 10px; /* Padding lateral da área de rolagem */
+  --scrollbar-border-radius: 10px; /* Raio da borda da barra de rolagem */
+  
+  /* NOVAS VARIÁVEIS PARA LIST ICONS */
+  --list-icons-spacing-xs: 5px;
+  --list-icons-spacing-sm: 8px;
+  --list-icons-spacing-md: 15px;
+  --list-icons-spacing-lg: 20px;
+  --list-icons-spacing-xl: 30px;
+  --list-icons-transition-speed: 0.3s;
+  --list-icons-transition: all var(--list-icons-transition-speed) ease;
+  --list-icons-primary-color: var(--e-global-color-primary, #007cba);
+  --list-icons-accent-color: var(--e-global-color-accent, #61ce70);
+  --list-icons-text-color: var(--e-global-color-text, #333333);
+  
+  /* VARIÁVEIS PARA SLIDE MENU */
+  --slide-menu-transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --slide-menu-panel-gap: 0px;
+}
+
+/* ==========================================
+   2. COMPONENTES COMPARTILHADOS
+   ========================================== */
+
+/* 2.1. BOTÕES COMPARTILHADOS
+   ------------------------------------------ */
+.widget-text-block__button,
+.widget-list-icons__button,
+.widget-list-slide__button {
+  display: block;
+  margin-top: var(--widget-spacing-md);
+}
+
+/* Base de links de botão para todos os widgets */
+.widget-text-block__button a,
+.widget-list-icons__button a,
+.widget-list-slide__button a,
+.widget-cta-buttons__button a {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  transition: var(--widget-transition);
+  white-space: nowrap;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  box-sizing: border-box; /* Garante que bordas sejam incluídas no cálculo da altura */
+}
+
+/* Alinhamento de botões */
+.button-position-center .widget-text-block__button,
+.button-position-center .widget-list-icons__button,
+.button-position-center .widget-list-slide__button {
+  text-align: center;
+}
+
+.button-position-right .widget-text-block__button,
+.button-position-right .widget-list-icons__button,
+.button-position-right .widget-list-slide__button {
+  text-align: right;
+}
+
+.button-position-left .widget-text-block__button,
+.button-position-left .widget-list-icons__button,
+.button-position-left .widget-list-slide__button {
+  text-align: left;
+}
+
+.button-position-justify .widget-text-block__button a,
+.button-position-justify .widget-list-icons__button a,
+.button-position-justify .widget-list-slide__button a {
+  width: 100%;
+  justify-content: center;
+}
+
+/* Ícones dentro de botões */
+.widget-text-block__button a i,
+.widget-text-block__button a svg,
+.widget-list-icons__button a i,
+.widget-list-icons__button a svg,
+.widget-list-slide__button a i,
+.widget-list-slide__button a svg,
+.widget-cta-buttons__button a i,
+.widget-cta-buttons__button a svg {
+  width: 1em !important;
+  height: 1em !important;
+  fill: currentColor !important;
+  margin-right: var(--widget-spacing-sm);
+}
+
+/* Posição de ícones em botões */
+.icon-before i,
+.icon-before svg,
+.button-icon-left,
+.button-icon-position-before i,
+.button-icon-position-before svg {
+  margin-right: var(--widget-spacing-sm);
+  margin-left: 0;
+  order: -1; /* Garante que o ícone apareça antes do texto */
+}
+
+.icon-after i,
+.icon-after svg,
+.button-icon-right,
+.button-icon-position-after i,
+.button-icon-position-after svg {
+  margin-left: var(--widget-spacing-sm);
+  margin-right: 0;
+  order: 1; /* Garante que o ícone apareça depois do texto */
+}
+
+/* Botão Estilo: Simples */
+.widget-text-block__button--simple a,
+.widget-list-icons__button--simple a,
+.widget-list-slide__button--simple a {
+  background: transparent !important;
+  padding: 0 !important;
+  border: none !important;
+  box-shadow: none !important;
+  text-decoration: underline;
+  color: var(--widget-color-accent) !important;
+}
+
+.widget-text-block__button--simple a:hover,
+.widget-list-icons__button--simple a:hover,
+.widget-list-slide__button--simple a:hover {
+  opacity: 0.85;
+}
+
+.widget-text-block__button--simple a svg,
+.widget-list-icons__button--simple a svg,
+.widget-list-slide__button--simple a svg {
+  fill: var(--widget-color-accent) !important;
+}
+
+/* Botão Estilo: Preenchido */
+.widget-text-block__button--filled a,
+.widget-list-icons__button--filled a,
+.widget-list-slide__button--filled a,
+.widget-cta-buttons__button--filled a {
+  background-color: var(--widget-color-accent);
+  color: #ffffff;
+  padding: 10px 20px;
+  border-radius: 4px;
+  border: 2px solid var(--widget-color-accent);
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.widget-text-block__button--filled a:before,
+.widget-list-icons__button--filled a:before,
+.widget-list-slide__button--filled a:before,
+.widget-cta-buttons__button--filled a:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity var(--widget-transition-speed) ease;
+  border-radius: inherit;
+  background-color: var(--e-global-color-accent);
+}
+
+.widget-text-block__button--filled a:hover:before,
+.widget-list-icons__button--filled a:hover:before,
+.widget-list-slide__button--filled a:hover:before,
+.widget-cta-buttons__button--filled a:hover:before {
+  opacity: 1;
+}
+
+.widget-text-block__button--filled a svg,
+.widget-list-icons__button--filled a svg,
+.widget-list-slide__button--filled a svg,
+.widget-cta-buttons__button--filled a svg {
+  fill: #ffffff !important;
+}
+
+/* Botão Estilo: Contorno */
+.widget-text-block__button--outline a,
+.widget-list-icons__button--outline a,
+.widget-list-slide__button--outline a,
+.widget-cta-buttons__button--outline a {
+  background-color: transparent;
+  border: 2px solid var(--widget-color-accent);
+  color: var(--widget-color-accent) ;
+  padding: 10px 20px;
+  border-radius: 4px;
+}
+
+.widget-text-block__button--outline a:hover,
+.widget-list-icons__button--outline a:hover,
+.widget-list-slide__button--outline a:hover,
+.widget-cta-buttons__button--outline a:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+  opacity: 0.85;
+}
+
+.widget-text-block__button--outline a svg,
+.widget-list-icons__button--outline a svg,
+.widget-list-slide__button--outline a svg,
+.widget-cta-buttons__button--outline a svg {
+  fill: var(--widget-color-accent) ;
+}
+
+/* Tamanhos de botões */
+.widget-text-block__button--small a,
+.widget-list-icons__button--small a,
+.widget-list-slide__button--small a,
+.widget-cta-buttons__button--small a {
+  font-size: 0.875em;
+  padding: 8px 15px;
+}
+
+.widget-text-block__button--normal a,
+.widget-list-icons__button--normal a,
+.widget-list-slide__button--normal a,
+.widget-cta-buttons__button--normal a {
+  font-size: 1em;
+  padding: 10px 20px;
+}
+
+.widget-text-block__button--large a,
+.widget-list-icons__button--large a,
+.widget-list-slide__button--large a,
+.widget-cta-buttons__button--large a {
+  font-size: 1.125em;
+  padding: 12px 25px;
+}
+
+/* 2.2. ÍCONES COMPARTILHADOS (ATUALIZADO)
+   ------------------------------------------ */
+.widget-list-icons__icon,
+.widget-list-icons__icon-text,
+.widget-list-slide__icon,
+.widget-list-slide__icon-text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: var(--widget-spacing-md);
+  flex-shrink: 0;
+  color: var(--list-icons-accent-color);
+  transition: var(--list-icons-transition);
+}
+
+.widget-list-icons__icon i,
+.widget-list-icons__icon svg {
+  display: block;
+  color: inherit;
+  fill: currentColor;
+}
+
+.widget-list-icons__icon-text,
+.widget-list-slide__icon-text {
+  font-weight: 600;
+  line-height: 1;
+  min-width: 1.5em;
+  text-align: center;
+}
+
+/* Formatos de ícones (ATUALIZADO) */
+.icon-shape-outline,
+.widget-list-icons__icon.icon-shape-outline,
+.widget-list-icons__icon-text.icon-shape-outline {
+  background-color: transparent;
+  border: 2px solid currentColor;
+  padding: var(--widget-spacing-sm);
+}
+
+.icon-shape-solid,
+.widget-list-icons__icon.icon-shape-solid,
+.widget-list-icons__icon-text.icon-shape-solid {
+  background-color: var(--widget-color-accent);
+  color: #ffffff;
+  padding: var(--widget-spacing-sm);
+}
+
+/* 2.3. TÍTULOS E TEXTOS COMPARTILHADOS
+   ------------------------------------------ */
+.widget-text-block__title,
+.widget-list-icons__title,
+.widget-list-icons__item-title,
+.widget-list-slide__item-title {
+  font-weight: 600;
+  margin-bottom: var(--widget-spacing-xs);
+  color: var(--widget-color-primary);
+}
+
+/* Título específico do widget list icons */
+.widget-list-icons__title {
+  margin-bottom: var(--list-icons-spacing-lg);
+  color: var(--list-icons-primary-color);
+}
+
+.widget-text-block__subtitle,
+.widget-list-slide__item-subtitle {
+  margin-bottom: var(--widget-spacing-sm);
+}
+
+.widget-text-block__description,
+.widget-list-icons__item-description,
+.widget-list-slide__item-description {
+  margin-bottom: var(--widget-spacing-md);
+  color: var(--widget-color-text);
+}
+
+/* Descrição específica do list icons */
+.widget-list-icons__item-description {
+  color: var(--list-icons-text-color);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* 2.4. ANIMAÇÕES COMPARTILHADAS
+   ------------------------------------------ */
+.elementor-animation-grow {
+  transition: transform var(--widget-transition-speed) ease-in-out;
+}
+
+.elementor-animation-grow:hover {
+  transform: scale(1.05);
+}
+
+.elementor-animation-shrink {
+  transition: transform var(--widget-transition-speed) ease-in-out;
+}
+
+.elementor-animation-shrink:hover {
+  transform: scale(0.95);
+}
+
+.elementor-animation-float {
+  transition: transform var(--widget-transition-speed) ease-in-out;
+}
+
+.elementor-animation-float:hover {
+  transform: translateY(-8px);
+}
+
+.elementor-animation-sink {
+  transition: transform var(--widget-transition-speed) ease-in-out;
+}
+
+.elementor-animation-sink:hover {
+  transform: translateY(8px);
+}
+
+@keyframes elementor-animation-bob {
+  0% {
+    transform: translateY(-8px);
+  }
+  50% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-8px);
+  }
+}
+
+.elementor-animation-bob:hover {
+  animation-name: elementor-animation-bob;
+  animation-duration: 2s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+/* ==========================================
+   3. WIDGET ESPECÍFICO: BLOCO DE TEXTO
+   ========================================== */
+.widget-text-block {
+  position: relative;
+  transition: var(--widget-transition);
+}
+
+.widget-text-block__inner {
+  width: 100%;
+}
+
+/* Pré-título */
+.widget-text-block__pretitle {
+  margin: 0 0 10px 0;
+  padding: 0;
+  display: block;
+  width: 100%;
+}
+
+/* Divisor */
+.widget-text-block__divisor-container {
+  display: flex;
+  width: 100%;
+  margin: var(--widget-spacing-lg) 0;
+}
+
+.widget-text-block__divisor {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-color: #ddd;
+}
+
+/* ==========================================
+   3.1. ALTURA MÁXIMA E ROLAGEM (NOVO)
+   ========================================== */
+
+/* CONFIGURAÇÕES DA ROLAGEM - Edite estas variáveis no seletor :root acima ou diretamente aqui */
+.widget-text-block-max-height-yes .widget-text-block {
+  /* Importante: Contêiner principal precisa ser posição relativa */
+  position: relative;
+}
+
+.widget-text-block-max-height-yes .widget-text-block__inner {
+  /* Configurações de altura máxima e rolagem */
+  overflow-y: auto;
+  overflow-x: hidden;
+  max-height: 300px; /* Será sobrescrito pelo controle do Elementor */
+  
+  /* Padding lateral da área de rolagem - EDITE AQUI */
+  padding-left: var(--scrollbar-padding, 10px);
+  padding-right: var(--scrollbar-padding, 10px);
+  
+  /* Ajusta o padding na parte inferior para evitar que o conteúdo fique sob o gradiente */
+  padding-bottom: var(--fade-height, 50px);
+  
+  /* Melhorias de rolagem para mobile */
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+  
+  /* Configurações para Firefox */
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-color, rgba(0, 0, 0, 0.2)) transparent;
+}
+
+/* Estilização da barra de rolagem - WebKit (Chrome, Safari, Edge) */
+.widget-text-block-max-height-yes .widget-text-block__inner::-webkit-scrollbar {
+  /* Largura da barra de rolagem - EDITE AQUI */
+  width: var(--scrollbar-width, 8px) !important;
+}
+
+.widget-text-block-max-height-yes .widget-text-block__inner::-webkit-scrollbar-track {
+  background: transparent;
+  /* Raio da borda do track da barra - EDITE AQUI */
+  border-radius: var(--scrollbar-border-radius, 10px) !important;
+}
+
+.widget-text-block-max-height-yes .widget-text-block__inner::-webkit-scrollbar-thumb {
+  /* Cor da barra de rolagem - EDITE AQUI */
+  background-color: var(--scrollbar-color, rgba(0, 0, 0, 0.2)) !important;
+  /* Raio da borda da barra - EDITE AQUI */
+  border-radius: var(--scrollbar-border-radius, 10px) !important;
+  border: 0 solid transparent;
+}
+
+.widget-text-block-max-height-yes .widget-text-block__inner::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(0, 0, 0, 0.5) !important;
+}
+
+/* SOLUÇÃO COMPLETA: Criamos um elemento separado para o gradiente, fora do fluxo de rolagem */
+.widget-text-block-fade-effect-yes .widget-text-block::after {
+  content: '';
+  position: absolute; /* Posição absoluta em relação ao container .widget-text-block */
+  bottom: 0; /* Fixo no fundo */
+  left: 0;
+  right: 0;
+  height: var(--fade-height, 50px);
+  pointer-events: none; /* Permite interação com elementos sob o gradiente */
+  
+  /* Gradiente que permanece fixo na parte inferior */
+  background: linear-gradient(to bottom, 
+                           rgba(255, 255, 255, 0) 0%, 
+                           var(--fade-color, rgba(255, 255, 255, 1)) 100%);
+  z-index: 2;
+}
+
+/* Compatibilidade com temas escuros */
+.elementor-editor-dark-mode .widget-text-block-fade-effect-yes .widget-text-block::after {
+  background: linear-gradient(to bottom, 
+                           rgba(23, 28, 36, 0) 0%, 
+                           var(--fade-color, rgba(23, 28, 36, 1)) 100%);
+}
+
+/* Garantir que o botão fique visível abaixo da área de rolagem */
+.widget-text-block-max-height-yes .widget-text-block__button {
+  position: relative;
+  z-index: 3; /* Acima do efeito de gradiente */
+  margin-top: 15px; /* Espaçamento do conteúdo rolável */
+}
+
+/* Responsividade para áreas com rolagem */
+@media (max-width: 767px) {
+  .widget-text-block-max-height-yes .widget-text-block__inner {
+    /* Altura padrão menor para mobile, será sobrescrita pelo controle responsivo */
+    max-height: 250px;
+    padding-bottom: 40px; /* Gradiente menor em dispositivos móveis */
+  }
+  
+  .widget-text-block-fade-effect-yes .widget-text-block::after {
+    height: 40px; /* Gradiente menor em dispositivos móveis */
+  }
+  
+  /* Aumenta a largura da barra de rolagem em dispositivos touch */
+  .widget-text-block-max-height-yes .widget-text-block__inner::-webkit-scrollbar {
+    width: 6px !important;
+  }
+}
+
+/* ==========================================
+   4. WIDGET ESPECÍFICO: LISTA DE ÍCONES (MELHORADO)
+   ========================================== */
+.widget-list-icons {
+  position: relative;
+  font-family: inherit;
+}
+
+.widget-list-icons__container {
+  width: 100%;
+}
+
+/* ==========================================
+   LAYOUTS (NOVO)
+   ========================================== */
+
+/* Layout Traditional (Lista Vertical) */
+.elementor-list-layout-traditional .widget-list-icons__container {
+  display: flex;
+  flex-direction: column;
+}
+
+.elementor-list-layout-traditional .widget-list-icons__item {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: var(--list-icons-spacing-md);
+  padding-bottom: var(--list-icons-spacing-md);
+  transition: var(--list-icons-transition);
+  position: relative;
+  box-sizing: border-box;
+}
+
+.elementor-list-layout-traditional .widget-list-icons__item:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+/* Remover hover transform para melhor controle */
+.elementor-list-layout-traditional .widget-list-icons__item:hover {
+  transform: none;
+}
+
+/* === SEPARADORES === */
+.widget-list-icons__item--separator:not(:last-child) {
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  border-bottom-color: #ddd;
+}
+
+/* Layout Inline (Grade) */
+.elementor-list-layout-inline .widget-list-icons__container {
+  display: grid;
+  gap: var(--list-icons-spacing-lg);
+  align-items: start;
+}
+
+/* Garantir que equal height funcione no grid */
+.equal-height-yes.elementor-list-layout-inline .widget-list-icons__container {
+  align-items: stretch;
+}
+
+.elementor-list-layout-inline .widget-list-icons__item {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: var(--list-icons-spacing-md);
+  background-color: transparent;
+  border-radius: 8px;
+  transition: var(--list-icons-transition);
+  box-sizing: border-box;
+}
+
+.elementor-list-layout-inline .widget-list-icons__item:hover {
+  transform: translateY(-5px);
+}
+
+/* Remover separadores no layout de grade */
+.elementor-list-layout-inline .widget-list-icons__item--separator {
+  border-bottom: none;
+}
+
+/* ==========================================
+   ALTURA UNIFORME (EQUAL HEIGHT) (NOVO)
+   ========================================== */
+.equal-height-yes .widget-list-icons__item {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.equal-height-yes .widget-list-icons__item-content {
+  display: flex;
+  flex: 1;
+  height: 100%;
+}
+
+.equal-height-yes.elementor-list-layout-inline .widget-list-icons__container {
+  align-items: stretch;
+}
+
+.equal-height-yes.elementor-list-layout-traditional .widget-list-icons__item {
+  min-height: auto;
+}
+
+/* Equal height com marcadores em diferentes posições */
+.equal-height-yes.marker-position-left .widget-list-icons__text-content,
+.equal-height-yes.marker-position-right .widget-list-icons__text-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.equal-height-yes.marker-position-top .widget-list-icons__text-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Garantir que o botão fique no final quando em equal height */
+.equal-height-yes .widget-list-icons__button {
+  margin-top: auto;
+}
+
+/* ==========================================
+   ESTRUTURA DO ITEM (ATUALIZADO)
+   ========================================== */
+.widget-list-icons__item {
+  transition: var(--list-icons-transition);
+  position: relative;
+  box-sizing: border-box;
+}
+
+.widget-list-icons__item-content {
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.widget-list-icons__text-content {
+  flex-grow: 1;
+  min-width: 0; /* Previne overflow de texto longo */
+}
+
+/* Item clicável */
+.widget-list-icons__item[data-link-url] {
+  cursor: pointer;
+  transition: var(--list-icons-transition);
+}
+
+.widget-list-icons__item[data-link-url]:hover {
+  opacity: 0.9;
+}
+
+.widget-list-icons__item[data-link-url]:focus {
+  outline: 2px solid var(--list-icons-accent-color);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Transição suave para background */
+.widget-list-icons__item {
+  transition: background-color var(--list-icons-transition-speed) ease,
+              box-shadow var(--list-icons-transition-speed) ease,
+              transform var(--list-icons-transition-speed) ease;
+}
+
+/* ==========================================
+   POSICIONAMENTO DO MARCADOR (NOVO)
+   ========================================== */
+
+/* Posição: À esquerda (padrão) */
+.marker-position-left .widget-list-icons__item-content {
+  flex-direction: row;
+  align-items: flex-start;
+}
+
+.marker-position-left .widget-list-icons__icon,
+.marker-position-left .widget-list-icons__icon-text {
+  margin-right: var(--list-icons-spacing-md);
+  margin-left: 0;
+  margin-bottom: 0;
+  order: 1;
+}
+
+.marker-position-left .widget-list-icons__text-content {
+  order: 2;
+  flex: 1;
+}
+
+/* Posição: À direita */
+.marker-position-right .widget-list-icons__item-content {
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.marker-position-right .widget-list-icons__icon,
+.marker-position-right .widget-list-icons__icon-text {
+  margin-left: var(--list-icons-spacing-md);
+  margin-right: 0;
+  margin-bottom: 0;
+  order: 2;
+}
+
+.marker-position-right .widget-list-icons__text-content {
+  order: 1;
+  flex: 1;
+}
+
+/* Posição: Acima */
+.marker-position-top .widget-list-icons__item-content {
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.marker-position-top .widget-list-icons__icon,
+.marker-position-top .widget-list-icons__icon-text {
+  margin-right: 0;
+  margin-left: 0;
+  margin-bottom: var(--list-icons-spacing-md);
+  order: 1;
+}
+
+.marker-position-top .widget-list-icons__text-content {
+  order: 2;
+  width: 100%;
+}
+
+/* ==========================================
+   ALINHAMENTO DO CONTEÚDO (NOVO)
+   ========================================== */
+
+/* Alinhamento Global - Esquerda */
+.content-alignment-left .widget-list-icons__text-content {
+  text-align: left;
+}
+
+.content-alignment-left.marker-position-top .widget-list-icons__item-content {
+  align-items: flex-start;
+}
+
+.content-alignment-left.marker-position-top .widget-list-icons__icon,
+.content-alignment-left.marker-position-top .widget-list-icons__icon-text {
+  align-self: flex-start;
+}
+
+/* Alinhamento Global - Centro */
+.content-alignment-center .widget-list-icons__text-content {
+  text-align: center;
+}
+
+.content-alignment-center.marker-position-top .widget-list-icons__item-content {
+  align-items: center;
+}
+
+.content-alignment-center.marker-position-top .widget-list-icons__icon,
+.content-alignment-center.marker-position-top .widget-list-icons__icon-text {
+  align-self: center;
+}
+
+/* Alinhamento Global - Direita */
+.content-alignment-right .widget-list-icons__text-content {
+  text-align: right;
+}
+
+.content-alignment-right.marker-position-top .widget-list-icons__item-content {
+  align-items: flex-end;
+}
+
+.content-alignment-right.marker-position-top .widget-list-icons__icon,
+.content-alignment-right.marker-position-top .widget-list-icons__icon-text {
+  align-self: flex-end;
+}
+
+/* ==========================================
+   CONTEÚDO DE TEXTO (ATUALIZADO)
+   ========================================== */
+.widget-list-icons__item-title {
+  font-weight: 600;
+  margin-bottom: var(--list-icons-spacing-xs);
+  color: var(--list-icons-accent-color);
+  transition: var(--list-icons-transition);
+  line-height: 1.4;
+}
+
+/* Hover effects no conteúdo */
+.widget-list-icons__item:hover .widget-list-icons__item-title {
+  color: var(--list-icons-primary-color);
+}
+
+/* ==========================================
+   BOTÕES (ATUALIZADO)
+   ========================================== */
+
+/* Alinhamento de botões baseado no alinhamento global */
+.content-alignment-left .widget-list-icons__button {
+  text-align: left;
+}
+
+.content-alignment-center .widget-list-icons__button {
+  text-align: center;
+}
+
+.content-alignment-right .widget-list-icons__button {
+  text-align: right;
+}
+
+/* Alinhamento específico de botões (sobrescreve o global) */
+.button-align-left .widget-list-icons__button {
+  text-align: left;
+}
+
+.button-align-center .widget-list-icons__button {
+  text-align: center;
+}
+
+.button-align-right .widget-list-icons__button {
+  text-align: right;
+}
+
+.button-align-justify .widget-list-icons__button a {
+  width: 100%;
+  justify-content: center;
+}
+
+/* ==========================================
+   RESPONSIVIDADE ESPECÍFICA (NOVO)
+   ========================================== */
+
+/* Tablet */
+@media (max-width: 1024px) {
+  /* Alinhamento responsivo */
+  .content-alignment-tablet-left .widget-list-icons__text-content {
+    text-align: left;
+  }
+  
+  .content-alignment-tablet-left.marker-position-top .widget-list-icons__item-content {
+    align-items: flex-start;
+  }
+  
+  .content-alignment-tablet-center .widget-list-icons__text-content {
+    text-align: center;
+  }
+  
+  .content-alignment-tablet-center.marker-position-top .widget-list-icons__item-content {
+    align-items: center;
+  }
+  
+  .content-alignment-tablet-right .widget-list-icons__text-content {
+    text-align: right;
+  }
+  
+  .content-alignment-tablet-right.marker-position-top .widget-list-icons__item-content {
+    align-items: flex-end;
+  }
+  
+  /* Ajuste de espaçamentos */
+  .widget-list-icons__item {
+    margin-bottom: var(--list-icons-spacing-sm);
+    padding-bottom: var(--list-icons-spacing-sm);
+  }
+  
+  /* Layout de grade mais compacto */
+  .elementor-list-layout-inline .widget-list-icons__item {
+    padding: var(--list-icons-spacing-sm);
+  }
+}
+
+/* Mobile */
+@media (max-width: 767px) {
+  /* Alinhamento responsivo mobile */
+  .content-alignment-mobile-left .widget-list-icons__text-content {
+    text-align: left;
+  }
+  
+  .content-alignment-mobile-left.marker-position-top .widget-list-icons__item-content {
+    align-items: flex-start;
+  }
+  
+  .content-alignment-mobile-center .widget-list-icons__text-content {
+    text-align: center;
+  }
+  
+  .content-alignment-mobile-center.marker-position-top .widget-list-icons__item-content {
+    align-items: center;
+  }
+  
+  .content-alignment-mobile-right .widget-list-icons__text-content {
+    text-align: right;
+  }
+  
+  .content-alignment-mobile-right.marker-position-top .widget-list-icons__item-content {
+    align-items: flex-end;
+  }
+  
+  /* Desabilitar hover transform no mobile */
+  .widget-list-icons__item:hover {
+    transform: none;
+  }
+  
+  /* Botões sempre centralizados no mobile por padrão */
+  .widget-list-icons__button {
+    text-align: center;
+  }
+  
+  .widget-list-icons__button a {
+    width: 100%;
+    justify-content: center;
+    max-width: 200px;
+    margin: 0 auto;
+  }
+  
+  /* Forçar layout de coluna única no mobile para grade */
+  .elementor-list-layout-inline .widget-list-icons__container {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* Mobile pequeno */
+@media (max-width: 480px) {
+  :root {
+    --list-icons-spacing-xs: 3px;
+    --list-icons-spacing-sm: 6px;
+    --list-icons-spacing-md: 10px;
+    --list-icons-spacing-lg: 15px;
+    --list-icons-spacing-xl: 20px;
+  }
+  
+  .widget-list-icons__item-title {
+    font-size: 1.1em;
+  }
+  
+  .widget-list-icons__item-description {
+    font-size: 0.9em;
+  }
+  
+  .widget-list-icons__button a {
+    padding: 8px 16px;
+    font-size: 0.9em;
+  }
+}
+
+/* ==========================================
+   MODO ESCURO (NOVO)
+   ========================================== */
+.elementor-editor-dark-mode .widget-list-icons {
+  --list-icons-text-color: rgba(255, 255, 255, 0.8);
+}
+
+.elementor-editor-dark-mode .widget-list-icons__item--separator:not(:last-child) {
+  border-bottom-color: rgba(255, 255, 255, 0.1);
+}
+
+.elementor-editor-dark-mode .widget-list-icons__button--outline a {
+  border-color: rgba(255, 255, 255, 0.3);
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.elementor-editor-dark-mode .widget-list-icons__button--outline a:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.elementor-editor-dark-mode .elementor-list-layout-inline .widget-list-icons__item {
+  background-color: rgba(255, 255, 255, 0.03);
+}
+
+.elementor-editor-dark-mode .elementor-list-layout-inline .widget-list-icons__item:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* ==========================================
+   MELHORIAS DE ACESSIBILIDADE (NOVO)
+   ========================================== */
+
+/* Focus states melhorados */
+.widget-list-icons__button a:focus,
+.widget-list-icons__item[data-link-url]:focus {
+  outline: 2px solid var(--list-icons-accent-color);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Contraste melhorado para texto */
+.widget-list-icons__item-description {
+  color: var(--list-icons-text-color);
+  opacity: 0.8;
+}
+
+/* Suporte para usuários com preferência por movimento reduzido */
+@media (prefers-reduced-motion: reduce) {
+  .widget-list-icons__item,
+  .widget-list-icons__button a,
+  .widget-list-icons__icon,
+  .widget-list-icons__icon-text {
+    transition: none;
+  }
+  
+  .widget-list-icons__item:hover {
+    transform: none;
+  }
+  
+  .elementor-list-layout-inline .widget-list-icons__item:hover {
+    transform: none;
+  }
+}
+
+/* ==========================================
+   SUPORTE PARA RTL (NOVO)
+   ========================================== */
+
+/* RTL - Posição esquerda (que vira direita em RTL) */
+.rtl .marker-position-left .widget-list-icons__icon,
+.rtl .marker-position-left .widget-list-icons__icon-text {
+  margin-right: 0;
+  margin-left: var(--list-icons-spacing-md);
+  order: 2;
+}
+
+.rtl .marker-position-left .widget-list-icons__text-content {
+  order: 1;
+}
+
+/* RTL - Posição direita (que vira esquerda em RTL) */
+.rtl .marker-position-right .widget-list-icons__icon,
+.rtl .marker-position-right .widget-list-icons__icon-text {
+  margin-left: 0;
+  margin-right: var(--list-icons-spacing-md);
+  order: 1;
+}
+
+.rtl .marker-position-right .widget-list-icons__text-content {
+  order: 2;
+}
+
+/* RTL - Ícones de botão */
+.rtl .widget-list-icons__button i,
+.rtl .widget-list-icons__button svg {
+  margin-left: 0;
+  margin-right: var(--list-icons-spacing-sm);
+}
+
+/* RTL - Hover effects */
+.rtl .elementor-list-layout-traditional .widget-list-icons__item:hover {
+  transform: none;
+}
+
+/* ==========================================
+   UTILITÁRIOS E CORREÇÕES FINAIS (NOVO)
+   ========================================== */
+
+/* Garantir que o widget não tenha margem inferior extra */
+.elementor-widget-list_icons {
+  margin-bottom: 0;
+}
+
+/* Prevenir overflow de texto */
+.widget-list-icons__item-title,
+.widget-list-icons__item-description {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+}
+
+/* Limpar floats se necessário */
+.widget-list-icons__container::after,
+.widget-list-icons__item-content::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Compatibilidade com flex */
+.widget-list-icons__item-content {
+  display: flex;
+  align-items: flex-start;
+  gap: 0;
+}
+
+/* Melhorar renderização de ícones SVG */
+.widget-list-icons__icon svg,
+.widget-list-icons__button svg {
+  vertical-align: middle;
+  fill: currentColor;
+}
+
+/* Estados de carregamento */
+.widget-list-icons.loading {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.widget-list-icons.loading .widget-list-icons__item {
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 0.8; }
+}
+
+/* ==========================================
+   CLASSES AUXILIARES (NOVO)
+   ========================================== */
+
+/* Ocultar elementos */
+.widget-list-icons .sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Reset de listas se necessário */
+.widget-list-icons ul,
+.widget-list-icons ol {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* ==========================================
+   WIDGET
+   ========================================== */
+
+/* Reset de estilos que podem conflitar */
+.widget-list-icons * {
+  box-sizing: border-box;
+  
+}
+
+.widget-list-icons a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.widget-list-icons a:hover {
+  text-decoration: none;
+}
+
+
+/* Suporte para temas que afetam ícones */
+.widget-list-icons i::before {
+  color: inherit;
+}
+
+.icon-shape-circle {
+	border-radius:50%;
+}
+
+/* ==========================================
+   5. WIDGET ESPECÍFICO: SLIDE LISTA
+   ========================================== */
+.widget-list-slide {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.widget-list-slide__title {
+  margin-bottom: var(--widget-spacing-lg);
+}
+
+.widget-list-slide__container {
+  position: relative;
+  overflow: visible;
+  perspective: 1800px;
+  padding: 24px 0;
+}
+
+.widget-list-slide__wrapper {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 160px;
+}
+
+.widget-list-slide__item {
+  position: absolute;
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  padding: var(--widget-spacing-lg);
+  transition: all var(--slide-animation-speed, 500ms) cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  max-width: 600px;
+  width: 90%;
+  box-sizing: border-box;
+  height: var(--card-max-height, auto);
+}
+
+.widget-list-slide__item-content {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+}
+
+.widget-list-slide__text-content {
+  flex: 1;
+}
+
+/* Ajustes para os cartões em diferentes posições */
+.widget-list-slide__item.active {
+  z-index: 30;
+  opacity: 1;
+  transform: translateZ(0) scale(1);
+  visibility: visible;
+}
+
+.widget-list-slide__item.next {
+  z-index: 25;
+  opacity: 0.8;
+  transform: translateZ(-60px) translateY(-10px) scale(0.95);
+  visibility: visible;
+}
+
+.widget-list-slide__item.prev {
+  z-index: 20;
+  opacity: 0.6;
+  transform: translateZ(-120px) translateY(-20px) scale(0.9);
+  visibility: visible;
+}
+
+.widget-list-slide__item.far {
+  z-index: 15;
+  opacity: 0.4;
+  transform: translateZ(-180px) translateY(-30px) scale(0.85);
+  visibility: visible;
+}
+
+.widget-list-slide__item.hidden {
+  z-index: 1;
+  opacity: 0;
+  transform: translateZ(-300px) scale(0.7);
+  visibility: hidden;
+}
+
+/* Paginação */
+.widget-list-slide__pagination {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  margin-top: var(--widget-spacing-lg);
+  z-index: 50;
+}
+
+.widget-list-slide__pagination-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 12px;
+  background-color: var(--widget-color-primary);
+  margin-right: 6px;
+  opacity: 0.5;
+  cursor: pointer;
+  transition: var(--widget-transition);
+}
+
+.widget-list-slide__pagination-dot.active {
+  width: 24px;
+  background-color: var(--widget-color-primary);
+  opacity: 1;
+}
+
+/* ==========================================
+   6. WIDGET ESPECÍFICO: BOTÕES CTA - CORRIGIDO
+   ========================================== */
+
+/* Layout base do container */
+.widget-cta-buttons__container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  gap: 8px; /* Valor padrão - será sobrescrito pelo controle responsivo */
+}
+
+/* Altura uniforme para todos os botões */
+.widget-cta-buttons__button {
+  position: relative;
+  margin: 0;
+  flex: 0 1 auto;
+  min-width: 0;
+  display: flex;
+}
+
+/* Links de botões com altura uniforme */
+.widget-cta-buttons__button a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  border: 2px solid transparent;
+  box-shadow: none;
+  outline: none;
+  transition: all 0.3s ease;
+  line-height: normal;
+  box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  white-space: normal;
+  text-align: center;
+  width: 100%;
+  min-height: 100%;
+  
+  /* Garantir altura uniforme independente do estilo */
+  padding: 10px 20px;
+}
+
+/* Posicionamento dos ícones */
+.widget-cta-buttons__button a .button-icon-left {
+  margin-right: var(--widget-spacing-sm, 8px);
+  margin-left: 0;
+  order: -1;
+}
+
+.widget-cta-buttons__button a .button-icon-right {
+  margin-left: var(--widget-spacing-sm, 8px);
+  margin-right: 0;
+  order: 1;
+}
+
+/* =====================================================
+   CONTROLES RESPONSIVOS INDEPENDENTES
+   ===================================================== */
+
+/* DESKTOP - Alinhamentos Horizontais */
+.elementor-cta-position-flex-start .widget-cta-buttons__container {
+  justify-content: flex-start;
+}
+
+.elementor-cta-position-center .widget-cta-buttons__container {
+  justify-content: center;
+}
+
+.elementor-cta-position-flex-end .widget-cta-buttons__container {
+  justify-content: flex-end;
+}
+
+.elementor-cta-position-stretch .widget-cta-buttons__container {
+  justify-content: stretch;
+}
+
+.elementor-cta-position-stretch .widget-cta-buttons__container > .widget-cta-buttons__button {
+  flex: 1;
+}
+
+/* TABLET - Alinhamentos Independentes */
+@media (max-width: 1024px) {
+  .elementor-cta-position-tablet-flex-start .widget-cta-buttons__container {
+    justify-content: flex-start;
+  }
+  
+  .elementor-cta-position-tablet-center .widget-cta-buttons__container {
+    justify-content: center;
+  }
+  
+  .elementor-cta-position-tablet-flex-end .widget-cta-buttons__container {
+    justify-content: flex-end;
+  }
+  
+  .elementor-cta-position-tablet-stretch .widget-cta-buttons__container {
+    justify-content: stretch;
+  }
+  
+  .elementor-cta-position-tablet-stretch .widget-cta-buttons__container > .widget-cta-buttons__button {
+    flex: 1;
+  }
+}
+
+/* MOBILE - Sempre Empilhado com Alinhamentos Independentes */
+@media (max-width: 767px) {
+  /* Mobile sempre empilha */
+  .widget-cta-buttons__container,
+  .widget-cta-buttons__container.mobile-stacked {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--widget-spacing-sm, 8px);
+  }
+  
+  /* Espaçamento vertical no mobile */
+  .widget-cta-buttons__container > .widget-cta-buttons__button:not(:last-child),
+  .widget-cta-buttons__container.mobile-stacked > .widget-cta-buttons__button:not(:last-child) {
+    margin-right: 0 !important;
+    margin-bottom: var(--widget-spacing-sm, 8px);
+  }
+  
+  /* Alinhamentos móbile independentes */
+  .elementor-cta-position-mobile-flex-start .widget-cta-buttons__container {
+    align-items: flex-start;
+  }
+  
+  .elementor-cta-position-mobile-center .widget-cta-buttons__container {
+    align-items: center;
+  }
+  
+  .elementor-cta-position-mobile-flex-end .widget-cta-buttons__container {
+    align-items: flex-end;
+  }
+  
+  /* Mobile expandido - cada botão ocupa largura total */
+  .elementor-cta-position-mobile-stretch .widget-cta-buttons__container {
+    align-items: stretch;
+  }
+  
+  .elementor-cta-position-mobile-stretch .widget-cta-buttons__container > .widget-cta-buttons__button {
+    width: 100%;
+  }
+  
+  .elementor-cta-position-mobile-stretch .widget-cta-buttons__container > .widget-cta-buttons__button a {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* =====================================================
+   ESPAÇAMENTO DOS BOTÕES - SIMPLIFICADO COM GAP
+   ===================================================== */
+
+/* O espaçamento é controlado via propriedade 'gap' no container */
+/* Os valores são aplicados via controles responsivos do Elementor no PHP */
+
+/* Desktop e Tablet: gap horizontal */
+.widget-cta-buttons__container {
+  gap: 8px; /* Valor padrão - será sobrescrito pelos seletores do Elementor */
+}
+
+/* Mobile: mantém o gap, mas muda direção para column automaticamente */
+@media (max-width: 767px) {
+  .widget-cta-buttons__container,
+  .widget-cta-buttons__container.mobile-stacked {
+    flex-direction: column;
+    /* O gap será aplicado verticalmente automaticamente */
+  }
+}
+
+/* =====================================================
+   CORREÇÕES PARA ALTURA UNIFORME
+   ===================================================== */
+
+/* Garantir que botões preenchido e contorno tenham a mesma altura */
+.widget-cta-buttons__button--filled a,
+.widget-cta-buttons__button--outline a {
+  min-height: 44px; /* Altura mínima uniforme */
+  padding: 10px 20px; /* Padding uniforme */
+  border: 2px solid; /* Border uniforme */
+  box-sizing: border-box; /* Inclui borda no cálculo da altura */
+}
+
+/* Pseudo-elemento para gradiente hover */
+.widget-cta-buttons__button--filled a:before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity var(--widget-transition-speed) ease;
+  border-radius: inherit;
+  background-color: var(--e-global-color-accent);
+}
+
+.widget-cta-buttons__button--filled a:hover:before {
+  opacity: 1;
+}
+
+/* =====================================================
+   PREVIEW NO ELEMENTOR
+   ===================================================== */
+
+.elementor-editor-active .widget-cta-buttons__container {
+  min-height: 60px;
+}
+
+.elementor-editor-active .widget-cta-buttons__button a {
+  pointer-events: auto;
+}
+
+/* ==========================================
+   7. WIDGET ESPECÍFICO: SLIDE MENU (COMPLETO)
+   ========================================== */
+
+/* === ESTRUTURA BASE === */
+.widget-slide-menu {
+  width: 100%;
+  position: relative;
+  overflow: visible;
+  box-sizing: border-box;
+  font-family: inherit;
+}
+
+.widget-slide-menu__container {
+  position: relative;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.widget-slide-menu__wrapper {
+  position: relative;
+  overflow: visible;
+  margin: 0 auto;
+  min-height: 250px;
+  width: 100%;
+  height: auto;
+}
+
+.widget-slide-menu__panels {
+  position: relative;
+  width: 100%;
+  height: auto;
+  min-height: 100%;
+}
+
+/* === PAINÉIS === */
+.widget-slide-menu__panel {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: auto;
+  min-height: 100%;
+  background: transparent;
+  transition: var(--slide-menu-transition);
+  overflow: visible;
+  box-sizing: border-box;
+}
+
+/* Painel principal sempre visível */
+.widget-slide-menu__panel--main {
+  position: relative;
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(0);
+  z-index: 20;
+  height: auto;
+}
+
+/* Submenus inicialmente ocultos */
+.widget-slide-menu__panel--submenu {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(100%);
+  z-index: 10;
+  height: auto;
+}
+
+/* Estados ativos de submenu */
+.widget-slide-menu__panel--submenu.widget-slide-menu__panel--active {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(0);
+  z-index: 30;
+  height: auto;
+}
+
+/* === ANIMAÇÕES DE TRANSIÇÃO === */
+
+/* Slide para a esquerda (sair) */
+.widget-slide-menu__panel.slide-out-left {
+  opacity: 0;
+  transform: translateX(-100%);
+  visibility: hidden;
+}
+
+/* Slide para a direita (sair) */
+.widget-slide-menu__panel.slide-out-right {
+  opacity: 0;
+  transform: translateX(100%);
+  visibility: hidden;
+}
+
+/* Slide da direita (entrar) */
+.widget-slide-menu__panel.slide-in-right {
+  opacity: 1;
+  transform: translateX(0);
+  visibility: visible;
+}
+
+/* Slide da esquerda (entrar) */
+.widget-slide-menu__panel.slide-in-left {
+  opacity: 1;
+  transform: translateX(0);
+  visibility: visible;
+}
+
+/* === CABEÇALHO DO SUBMENU === */
+.widget-slide-menu__panel-header {
+  display: flex;
+  align-items: center;
+  padding: 15px 0;
+  margin-bottom: 10px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  gap: 10px;
+}
+
+.widget-slide-menu__panel-title {
+  font-weight: 600;
+  font-size: 1.1em;
+  color: var(--widget-color-primary);
+  flex: 1;
+  margin: 0;
+}
+
+/* === LISTAS === */
+.widget-slide-menu__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+/* === ITENS DE MENU === */
+.widget-slide-menu__item {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  box-sizing: border-box;
+  transition: var(--slide-menu-transition);
+  
+  /* Altura mínima padrão - será sobrescrita pelo controle do Elementor */
+  min-height: 48px;
+  
+  /* Garante que o item seja um container flexível */
+  display: flex;
+  align-items: center;
+}
+
+/* Espaçamento simétrico entre itens (topo e base) */
+.widget-slide-menu__item:not(:last-child) {
+  margin-bottom: 0; /* Será sobrescrito pelo controle do Elementor */
+}
+
+.widget-slide-menu__item:not(:first-child) {
+  margin-top: 0; /* Será sobrescrito pelo controle do Elementor */
+}
+
+.widget-slide-menu__item a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-decoration: none;
+  color: inherit;
+  padding: 12px 0;
+  width: 100%;
+  box-sizing: border-box;
+  transition: var(--slide-menu-transition);
+  position: relative;
+  
+  /* Altura mínima padrão - será sobrescrita pelo controle do Elementor */
+  min-height: 48px;
+}
+
+.widget-slide-menu__item a:hover {
+  text-decoration: none;
+}
+
+/* Itens com filhos */
+.widget-slide-menu__item.has-children > a {
+  position: relative;
+}
+
+/* === DIVISORES === */
+.widget-slide-menu__item.has-divider:not(:last-child) {
+  border-bottom: 1px solid;
+  border-bottom-color: #ddd;
+}
+
+/* === BOTÕES DE NAVEGAÇÃO (CORRIGIDOS DEFINITIVAMENTE) === */
+.widget-slide-menu__nav-button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: var(--slide-menu-transition);
+  
+  /* Centralização perfeita */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  
+  flex-shrink: 0;
+  
+  /* Valores padrão - serão sobrescritos pelos controles do Elementor */
+  padding: 8px;
+  border-radius: 4px;
+  
+  color: inherit;
+  position: relative;
+  overflow: hidden;
+  
+  /* CRÍTICO: Força o botão a ser sempre quadrado baseado no conteúdo */
+  width: fit-content;
+  height: fit-content;
+  min-width: calc(1em + 2 * 8px); /* 1em = tamanho do ícone, 8px = padding padrão */
+  min-height: calc(1em + 2 * 8px);
+  
+  /* Remove qualquer limitação */
+  max-width: none;
+  max-height: none;
+}
+
+/* Força dimensões iguais via JavaScript será aplicada dinamicamente */
+.widget-slide-menu__nav-button[data-square="true"] {
+  width: var(--button-size, auto);
+  height: var(--button-size, auto);
+}
+
+/* Background para estado normal */
+.widget-slide-menu__nav-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: transparent; /* Será sobrescrito pelo controle do Elementor */
+  border-radius: inherit;
+  transition: var(--slide-menu-transition);
+  z-index: 1;
+}
+
+/* Background para hover */
+.widget-slide-menu__nav-button::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: transparent; /* Será sobrescrito pelo controle do Elementor */
+  border-radius: inherit;
+  opacity: 0;
+  transition: var(--slide-menu-transition);
+  z-index: 1;
+}
+
+.widget-slide-menu__nav-button:hover::after {
+  opacity: 1;
+}
+
+.widget-slide-menu__nav-button:focus {
+  outline: 2px solid var(--widget-color-accent);
+  outline-offset: 2px;
+}
+
+.widget-slide-menu__nav-button i,
+.widget-slide-menu__nav-button svg {
+  /* Valores padrão - serão sobrescritos pelos controles do Elementor */
+  width: 16px;
+  height: 16px;
+  color: inherit;
+  fill: currentColor;
+  transition: var(--slide-menu-transition);
+  position: relative;
+  z-index: 2;
+  flex-shrink: 0;
+  
+  /* Centralização perfeita do ícone */
+  display: block;
+  margin: 0;
+  line-height: 1;
+  
+  /* Remove qualquer espaçamento extra */
+  padding: 0;
+  border: 0;
+}
+
+/* Botão avançar */
+.widget-slide-menu__forward {
+  margin-left: auto;
+  align-self: center;
+}
+
+/* Botão voltar */
+.widget-slide-menu__back {
+  margin-right: 10px;
+  align-self: center;
+}
+
+/* === ESTADOS ATIVOS === */
+.widget-slide-menu__item.current-menu-item > a,
+.widget-slide-menu__item.current-menu-parent > a {
+  font-weight: 600;
+}
+
+/* === RESPONSIVIDADE === */
+@media (max-width: 767px) {
+  .widget-slide-menu__wrapper {
+    min-height: 200px;
+  }
+  
+  .widget-slide-menu__panel-header {
+    padding: 12px 0;
+  }
+  
+  .widget-slide-menu__item a {
+    padding: 10px 0;
+  }
+  
+  .widget-slide-menu__nav-button {
+    width: 28px;
+    height: 28px;
+  }
+  
+  .widget-slide-menu__nav-button i,
+  .widget-slide-menu__nav-button svg {
+    width: 14px;
+    height: 14px;
+  }
+}
+
+/* === SUPORTE PARA MOVIMENTO REDUZIDO === */
+@media (prefers-reduced-motion: reduce) {
+  .widget-slide-menu__panel,
+  .widget-slide-menu__nav-button,
+  .widget-slide-menu__item {
+    transition: none;
+  }
+}
+
+/* === MODO ESCURO === */
+.elementor-editor-dark-mode .widget-slide-menu__panel-header {
+  border-bottom-color: rgba(255, 255, 255, 0.1);
+}
+
+.elementor-editor-dark-mode .widget-slide-menu__item.has-divider:not(:last-child) {
+  border-bottom-color: rgba(255, 255, 255, 0.1);
+}
+
+.elementor-editor-dark-mode .widget-slide-menu__nav-button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* === RTL === */
+.rtl .widget-slide-menu__panel--submenu {
+  transform: translateX(-100%);
+}
+
+.rtl .widget-slide-menu__panel.slide-in-right {
+  transform: translateX(0);
+}
+
+.rtl .widget-slide-menu__panel.slide-out-left {
+  transform: translateX(100%);
+}
+
+.rtl .widget-slide-menu__panel.slide-out-right {
+  transform: translateX(-100%);
+}
+
+.rtl .widget-slide-menu__forward {
+  margin-left: 0;
+  margin-right: auto;
+}
+
+.rtl .widget-slide-menu__back {
+  margin-right: 0;
+  margin-left: 10px;
+}
+
+/* ==========================================
+   8. RESPONSIVIDADE - WIDGETS GERAIS
+   ========================================== */
+
+/* Ajustes específicos para layout em mobile */
+@media (max-width: 767px) {
+  /* Lista de ícones - Ajustes compatíveis com o novo sistema */
+  .widget-list-icons__item-content {
+    flex-direction: column;
+  }
+  
+  .widget-list-icons__icon,
+  .widget-list-icons__icon-text {
+    margin-right: 0;
+    margin-bottom: var(--widget-spacing-sm);
+  }
+  
+  /* Slide lista */
+  .widget-list-slide__item {
+    width: 95%;
+    padding: var(--widget-spacing-md);
+  }
+  
+  .widget-list-slide__item-content {
+    flex-direction: column;
+  }
+  
+  .widget-list-slide__icon, 
+  .widget-list-slide__icon-text {
+    margin-right: 0;
+    margin-bottom: var(--widget-spacing-sm);
+  }
+}
